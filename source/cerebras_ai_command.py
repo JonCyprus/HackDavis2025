@@ -13,11 +13,12 @@ client = Cerebras(
 taskSchema = {
     "type": "object",
     "properties": {
+        "title": {"type": "string"},
         "description": {"type": "string"},
         "start_time": {"type": "string"},
         "end_time": {"type": "string"},
     },
-    "required": ["description", "start_time", "end_time"],
+    "required": ["title", "start_time", "end_time"],
     "additionalProperties": False
 }
 
@@ -25,9 +26,11 @@ taskSchema = {
 completion = client.chat.completions.create(
     model="llama-4-scout-17b-16e-instruct",
     messages=[
-        {"role": "system", "content": "You are a helpful assistant that generates movie recommendations."},
-        {"role": "user", "content": "Suggest a sci-fi movie from the 1990s"}
+        # Initial system prompt for the AI, and user prompt.
+        {"role": "system", "content": "You are a helpful planning assistant, who manages activites for the day."},
+        {"role": "user", "content": "Suggest something active to do today between 4pm - 7pm"}
     ],
+    # Structure the response format
     response_format={
         "type": "json_schema", 
         "json_schema": {
@@ -38,5 +41,6 @@ completion = client.chat.completions.create(
     }
 )
 
+# Print the JSON output to stdout
 taskSchema = json.loads(completion.choices[0].message.content)
 print(json.dumps(taskSchema, indent=2))
