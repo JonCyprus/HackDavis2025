@@ -28,7 +28,7 @@ completion = client.chat.completions.create(
     messages=[
         # Initial system prompt for the AI, and user prompt.
         {"role": "system", "content": "You are a helpful planning assistant, who manages activites for the day."},
-        {"role": "user", "content": "Suggest something to do today between 4pm - 7pm"}
+        {"role": "user", "content": "Suggest something active to do today between 4pm - 7pm"}
     ],
     # Structure the response format
     response_format={
