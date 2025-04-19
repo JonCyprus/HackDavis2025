@@ -15,11 +15,13 @@ currentChat = [
         {"role": "system", "content": aiPrompt}
     ]
 
+# Input loop
 while True:
     userInput = input()
     if userInput == "STOP!!!":
         break
-
+    
+    # Add user input to conversation history.
     currentChat.append({"role": "user", "content": userInput})
 
     # Start a stream
@@ -28,6 +30,9 @@ while True:
         messages=currentChat
     )
 
+    # Add AI response to conversation history, and print for the user.
     aiResponse = chat.choices[0].message.content
     print(aiResponse)
     currentChat.append({"role": "assistant", "content": aiResponse})
+    
+    # Loop
