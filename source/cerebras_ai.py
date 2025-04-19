@@ -10,5 +10,16 @@ client = Cerebras(
     api_key=os.getenv("CEREBRAS_API_KEY")
 )
 
-# Testing .env api retrieval
-print(os.getenv("CEREBRAS_API_KEY"))
+stream = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "Why is an apple red? Explain in five sentences or less.",
+        }
+    ],
+    model="llama-4-scout-17b-16e-instruct",
+    stream=True,
+)
+
+for chunk in stream:
+    print(chunk.choices[0].delta.content or "", end="")
