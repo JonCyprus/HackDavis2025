@@ -101,6 +101,7 @@ def CreateTaskEndpoint():
 # Send a prompt endpoint
 @app.route("/prompt/chat", methods=["POST"])
 def ChatPromptEndpoint():
+   print("Endpoint recieved! Processing...")
    return handlers.ChatPrompt(app, request)
 
 @app.route("/prompt/command", methods=["POST"])
