@@ -54,7 +54,6 @@ def home():
     return render_template("index.html", session=user,
                            pretty=json.dumps(user, indent=4))
 
-## User endpoints
 # All Users resource
 @app.route('/users', methods=['GET'])
 def GetUsersEndpoint():
@@ -71,6 +70,7 @@ def LoginEndpoint():
 def callback():
     return handlers.LoginCallback(app)
 
+# Logout from user session
 @app.route("/logout")
 def logout():
     session.clear()
@@ -91,7 +91,16 @@ def logout():
 def CreateTaskEndpoint():
     return handlers.CreateTask(app, request)
 
+# Send a prompt endpoint
+@app.route("/prompt/chat", methods=["POST"])
+def ChatPromptEndpoint():
+   return handlers.ChatPrompt(app, request)
+
+@app.route("/prompt/command", methods=["POST"])
+def CommandPromptEndpoint():
+    return handlers.CommandPrompt(app, request)
+
 # Listen and serve requests
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=os.getenv("PORT", 5000))
+    app.run(host="127.0.0.1", port=os.getenv("PORT", 5009))
 
