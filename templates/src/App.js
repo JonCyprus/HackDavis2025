@@ -119,7 +119,8 @@ function App() {
   };
 
   function Tasky(){
-    return <img src="images/tasky-01.svg" className="tasky" alt="tasky, a fluffy yellow blob with big eyes" />;
+    const taskySprites = [(<img src="images/tasky-01.svg" className="tasky" alt="tasky, a fluffy yellow blob with big eyes" />), (<img src="images/tasky-02.svg" className="tasky" alt="tasky, a fluffy yellow blob, looks pensive" />), (<img src="images/tasky-03.svg" className="tasky" alt="tasky, a fluffy yellow blob, looks excited!" />)]
+    return taskySprites[0];
   }
 
   const CloudBtn = (props) => {
@@ -135,24 +136,12 @@ function App() {
     <main className="notLoggedInHome">
       <h3>Make an account!</h3>
       <a href="/api/auth/login" className="login-btn">Log in</a>
-
-      <div className="bg">
+    </main>
+    <div className="bg">
           <div className="hill1"></div>
           <div className="hill2"></div>
           <div className="hill3"></div>
-      </div>
-    </main>
-  </div>);
-  
-  const logInPg = (<div className="App">
-    <header className="App-header">
-      <h1>
-        Log in to Taskland
-      </h1>
-    </header>
-    <main className="home">
-      <p>insert login stuff here</p>
-    </main>
+    </div>
   </div>);
 
   const homePg = (<div className="App">
@@ -163,13 +152,13 @@ function App() {
     </header>
     <main className="home">
       <CloudBtn goToNewTask={() => setState('newTask')}/>
-      
-      <div className="bg">
+    </main>
+
+    <div className="bg">
           <div className="hill1"></div>
           <div className="hill2"></div>
           <div className="hill3"></div>
-      </div>
-    </main>
+    </div>
   </div>);
 
   // Page for creating new tasks
@@ -278,8 +267,6 @@ return (
       switch (state) {
         case "notLoggedInHome":
           return notLoggedInHomePg;
-        case "login":
-          return logInPg;
         case "home":
           return homePg;
         case "newTask":
