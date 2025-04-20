@@ -60,7 +60,7 @@ function App() {
         const status = await authService.checkAuth();
         if (status.authenticated) {
           setState('home');
-          await taskService.getTasks();
+          loadTasks();
         }
       } catch (error) {
         console.error('Auth check failed:', error);
@@ -79,19 +79,6 @@ function App() {
       setError('Failed to load tasks');
     }
   };
-
-  // loadtasks on page
-  useEffect(() => {
-  const maybeLoadTasks = async () => {
-    if (state === 'task') {
-      const fetchedTasks = await taskService.getTasks();
-      setTasks(fetchedTasks);
-    }
-  };
-
-  maybeLoadTasks();
-}, [state]);
-
 
   // Handle task input
   const handleTaskyChat = async (e) => {
@@ -256,7 +243,7 @@ function App() {
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           onKeyDown={handleTaskyChat}
-          placeholder="Tell me about your task..."
+          placeholder="What do you need to know?"
       />
     </div>
   </main>
@@ -279,45 +266,33 @@ const taskyCommand = (<div className="App">
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           onKeyDown={handleTaskyCommand}
-          placeholder="Tell me about your task..."
+          placeholder="What should I do?"
       />
     </div>
   </main>
   </div>);
 
-const taskPg = (
-  <div className="App">
+  const taskPg = (<div className="App">
     <main className="task">
-      {tasks.length === 0 && <p>No tasks yet.</p>}
+      {tasks.map(task => (
+          <div key={task.id} className="task-item">
+            <h1>{task.title}</h1>
+            <span className="day">{task.date}</span> <span className="time">{task.time}</span>
 
-      {tasks.map((task, index) => (
-        <div key={task.TASKID || index} className="task-item">
-          <h2>{task.TITLE}</h2>
+            <h3>Desctiption:</h3>
+            <p>{task.description}</p>
 
-          {task.DESC ? (
-            <p><strong>Description:</strong> {task.DESC}</p>
-          ) : null}
-
-          {task.steps?.length > 0 && (
-            <div className="subtasks">
-              <p><strong>Subtasks:</strong></p>
-              <ul>
-                {task.steps.map((step, idx) => (
-                  <li key={idx}>{step}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
+            <h2>Steps:</h2>
+            <div className="subtask">{task.steps?.map((step, index) => (
+                <div key={index} className="subtask">{step}</div>
+            ))}</div>
+          </div>
       ))}
     </main>
-
     <div className="taskyCircle">
-      <Tasky />
+        <Tasky />
     </div>
-  </div>
-);
-
+  </div>);
 
 
 return (
@@ -329,8 +304,6 @@ return (
           return notLoggedInHomePg;
         case "home":
           return homePg;
-        case "newTask":
-          return newTaskPg;
         case "manualTask":
           return manualTaskPg;
         case "task":

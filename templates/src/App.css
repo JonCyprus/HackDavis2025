@@ -15,6 +15,12 @@ main{
   margin: 1rem;
 }
 
+button{
+  font-family: "Pangolin", cursive;
+  color: var(--dpText);
+  margin: auto;
+}
+
 .cloudBtn{
   border: none;
   background-color: transparent;
@@ -89,11 +95,11 @@ main.task{
 }
 
 input[type=text]{
-  border-color: var(--dGreenHill);
+  outline-color: var(--dGreenHill);
 }
 
 input[type=text]:focus{
-  border-color: var(--lGreenHill);
+  outline-color: var(--lGreenHill);
 }
 
 .taskForm input{
