@@ -6,8 +6,8 @@ from source.respondWithJSON import respondWithJSON
 def CreateTask(app, request):
     email = getSessionEmail()
     data = request.get_json()
-
-    createTask(email, data.get("title"), data.get("description"), data.get("time"))
+    time = data.get("date") + " " + data.get("time")
+    createTask(email, data.get("title"), data.get("description"), time)
 
     return respondWithJSON({})
 
