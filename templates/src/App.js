@@ -23,7 +23,12 @@ function App() {
       onChange={(e) => setState(e.target.value)}
     >
       <option value="home">🏠 Home</option>
+<<<<<<< Updated upstream
       <option value="newTask">➕ New Task (AI)</option>
+=======
+      <option value="taskyCommand">➕ New Task (AI)</option>
+      <option value="makeTask">✍️ Manual Task</option>
+>>>>>>> Stashed changes
       <option value="task">📋 Task List</option>
       <option value="taskyTalk">💬 Talk to Tasky</option>
     </select>
@@ -93,13 +98,38 @@ function App() {
 
 
   // Handle task input
-  const handleTaskyInput = async (e) => {
+  const handleTaskyChat = async (e) => {
     if (e.key === 'Enter' && userInput.trim()) {
       setIsLoading(true);
       try {
         // Send raw input to backend
         console.log('User input is: ', userInput)
         const apiResp = await taskService.getAISuggestions(userInput);
+        console.log('Server response:', apiResp);
+        setResp(apiResp.response)
+        console.log('resp extract: ', apiResp.response)
+        
+        // Handle response as needed
+        if (apiResp.success) {
+          setState('task');
+        }
+        
+        setUserInput('');
+      } catch (error) {
+        setError('Failed to process request');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const handleTaskyCommand = async (e) => {
+    if (e.key === 'Enter' && userInput.trim()) {
+      setIsLoading(true);
+      try {
+        // Send raw input to backend
+        console.log('User input is: ', userInput)
+        const apiResp = await taskService.sendTaskRequest(userInput);
         console.log('Server response:', apiResp);
         setResp(apiResp.response)
         console.log('resp extract: ', apiResp.response)
@@ -165,7 +195,6 @@ function App() {
     </div>
   </div>);
 
-  // Page for creating new tasks
   const newTaskPg = (<div className="App">
     <main className="newTask">
       <div className="taskyZone">
@@ -213,6 +242,7 @@ function App() {
     </main>
   );
 
+
   const taskyTalk = (<div className="App">
   <main className="newTask">
       <div className="taskyZone">
@@ -229,7 +259,30 @@ function App() {
           type="text"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
-          onKeyDown={handleTaskyInput}
+          onKeyDown={handleTaskyChat}
+          placeholder="Tell me about your task..."
+      />
+    </div>
+  </main>
+  </div>);
+
+const taskyCommand = (<div className="App">
+  <main className="newTask">
+      <div className="taskyZone">
+        <div className="dialog">
+          {error && <p className="error">{error}</p>}
+          {isLoading && <p>Thonking...</p>}
+          <p>{resp}</p>
+        </div>
+        <Tasky/>
+      </div>
+    <div className="taskForm">
+      <input
+          name="talkToTasky"
+          type="text"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          onKeyDown={handleTaskyCommand}
           placeholder="Tell me about your task..."
       />
     </div>
@@ -288,14 +341,14 @@ return (
           return taskPg;
         case "taskyTalk":
           return taskyTalk;
+        case "taskyCommand":
+          return taskyCommand;
         default:
           return notLoggedInHomePg;
       }
     })()}
   </>
 );
-
-
 }
 
 export default App;
