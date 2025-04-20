@@ -94,17 +94,24 @@ def logout():
     )
 
 # Create a task endpoint
-@app.route("/test/createTask", methods=["POST"])
+@app.route("/api/createTask", methods=["POST"])
 def CreateTaskEndpoint():
     return handlers.CreateTask(app, request)
 
 # Send a prompt endpoint
-@app.route("/prompt/chat", methods=["POST"])
+@app.route("/api/prompt/chat", methods=["POST"])
 def ChatPromptEndpoint():
    print("Endpoint recieved! Processing...")
    return handlers.ChatPrompt(app, request)
 
-@app.route("/prompt/command", methods=["POST"])
+# auth status
+@app.route('/api/auth/status')
+def auth_status():
+    return jsonify({
+        'authenticated': 'user' in session,
+        'user': session.get('user')
+    })
+@app.route("/api/prompt/command", methods=["POST"])
 def CommandPromptEndpoint():
     return handlers.CommandPrompt(app, request)
 
