@@ -27,6 +27,7 @@ export const taskService = {
     // Get all tasks for the current user
     getTasks: async () => {
         try {
+            console.log("Fetching tasks...");
             const response = await fetch(`${API_BASE_URL}/tasks`, {
                 credentials: 'include'
             });
@@ -35,7 +36,9 @@ export const taskService = {
                 throw new Error('Failed to fetch tasks');
             }
 
-            return await response.json();
+            const data = await response.json();
+            console.log("Fetched tasks:", data);
+            return data;
         } catch (error) {
             console.error('Error fetching tasks:', error);
             throw error;
