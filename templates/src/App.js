@@ -133,7 +133,6 @@ function App() {
       </main>
   </div>);
 
-// note: below page is static text, will be replaced with user inputs
   const taskPg = (<div className="App">
     <main className="task">
       {tasks.map(task => (
