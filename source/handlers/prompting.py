@@ -5,10 +5,11 @@ import psycopg2
 import os
 import json
 # from dotenv import load_dotenv, find_dotenv
-# from source.sql.getAllUserTasks import getAllUserTasks
+from source.sql.getAllUserTasks import getAllUserTasks
 from cerebras.cloud.sdk import Cerebras # pip install --upgrade cerebras_cloud_sdk
 from enum import Enum
 from datetime import datetime
+from source.getEmail import getSessionEmail
 
 class column(Enum):
     TASKID = 0
@@ -37,15 +38,17 @@ def sqlFormatTasks(results):
     return formattedResults
 
 def formatPrompt(tasks):
-    formattedPrompt = "You are a helpful scheduling assistant.\
- You cannot manipulate the schedule directly, only comment on it,\
+    formattedPrompt = "You are a helpful scheduling assistant. \
+You will help the user manage tasks that they wish to complete, by a certain date. \
+Provide feedback and offer encouragement on completed tasks, or show concern about missed tasks. \
+You cannot manipulate the schedule directly, only comment on it, \
 and provide feedback relating to it. Keep your responses concise, two sentences at most. \
 If the user requests you to change something about the schedule, \
 inform them you are not able to do so, and ask them to try entering \"command mode\". Likewise, if the user \
 requests something off-topic, please inform them that you are unable help them. \
 However, always be kind and courteous. Do not demand anything of the user, or ask them to do something. \
 The current date and time is: \
-" + str(datetime.today().replace(second=0, microsecond=0)) + ". A list of currently scheduled events is as follows:\n"
+" + str(datetime.today().replace(second=0, microsecond=0)) + ". A list of currently scheduled tasks is as follows:\n"
     
     for task in tasks:
         print(task)
@@ -60,62 +63,42 @@ The current date and time is: \
         formattedPrompt += currentTask
     return formattedPrompt
 
-# def formatDate(unformDate):
-    
+def getTasks(app):
+    results = getAllUserTasks(getSessionEmail())
+    return results
 
 # Called in the "CHAT MODE" of TaskLand.
 # app.config["CURRENT_CHAT"] should contain an array of JSON objects, defining the conversation.
 def cerebrasChat(app, prompt):
-    
-    currentChat = [
-        {"role": "system", "content": prompt}
-    ]
 
-    while True:
-        # Attach client to API key
-        # load_dotenv(find_dotenv())
-        client = Cerebras(
-            api_key=app.config["CEREBRAS_API_KEY"]
-        )
+    currentChat = app.config.get("CURRENT_CONVERSATION")
 
-        # Add user input to conversation history.
-        userPrompt = input()
-        currentChat.append({"role": "user", "content": userPrompt})
+    if not currentChat:  # If it's None or an empty list
+        app.config["CURRENT_CONVERSATION"] = [{"role": "system", "content": formatPrompt(sqlFormatTasks(getTasks(app)))}]
+        currentChat = app.config["CURRENT_CONVERSATION"]
 
-        # Start a stream
-        chat = client.chat.completions.create(
-            model="llama-4-scout-17b-16e-instruct",
-            messages=currentChat
-        )
+    # Attach client to API key
+    # load_dotenv(find_dotenv())
+    client = Cerebras(
+        api_key=app.config["CEREBRAS_API_KEY"]
+    )
 
-        print("Connected successfully with Cerebras, \\source\\handlers\\prompting.py")
+    # Add user input to conversation history.
+    userPrompt = prompt
+    currentChat.append({"role": "user", "content": userPrompt})
 
-        # Add AI response to conversation history
-        aiResponse = chat.choices[0].message.content
-        # print(aiResponse)
-        currentChat.append({"role": "assistant", "content": aiResponse})
+    # Start a stream
+    chat = client.chat.completions.create(
+        model="llama-4-scout-17b-16e-instruct",
+        messages=currentChat
+    )
+
+    print("Connected successfully with Cerebras, \\source\\handlers\\prompting.py")
+
+    # Add AI response to conversation history
+    aiResponse = chat.choices[0].message.content
+    # print(aiResponse)
+    currentChat.append({"role": "assistant", "content": aiResponse})
+    app.config["CURRENT_CONVERSATION"] = currentChat
+
     return aiResponse
-
-# Quick dirty run test
-def getAllUserTasks(email, conn):
-    # conn = g.db
-    cur = conn.cursor()
-    results = None
-    try:
-        cur.execute("SELECT * FROM tasks WHERE email = %s", (email,))
-        results = cur.fetchall()
-    except psycopg2.errors.UniqueViolation:
-        conn.rollback()  # Always rollback on failure
-        print(f"Could not get tasks for %s", email)
-
-    return results
-
-"""
-if __name__ == "__main__":
-    app = Flask(__name__)
-    print("Starting DB connection...")
-    conn = psycopg2.connect("postgresql://HackDavis_owner:npg_PiwzBn1xSj2g@ep-weathered-lab-a6gnb5x1-pooler.us-west-2.aws.neon.tech/HackDavis?sslmode=require")
-    results = getAllUserTasks("joncyprus99@gmail.com", conn)
-    prompt = formatPrompt(sqlFormatTasks(results))
-    cerebrasChat(None, prompt)
-"""

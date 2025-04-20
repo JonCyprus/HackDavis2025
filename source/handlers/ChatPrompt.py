@@ -3,6 +3,10 @@ from . import prompting # import from \source\handlers\prompting.py
 import json
 
 def ChatPrompt(app, request):
+    print("Chat Prompt called, with params:")
+    print(app)
+    print(request)
     jsonReq = request.get_json()
-    message = jsonReq.json.get("message")
-    return json.jsonify({"response": prompting.cerebrasChat(app, message)}), 200
+    message = jsonReq.get("message")
+    response = prompting.cerebrasChat(app, message)
+    return respondWithJSON({"response": response})
