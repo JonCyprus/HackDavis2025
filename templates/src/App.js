@@ -12,6 +12,11 @@ function App() {
       <main>
         <button className="cloudBtn">New Project</button>
         
+        <div className="bg">
+            <div className="hill1"></div>
+            <div className="hill2"></div>
+            <div className="hill3"></div>
+        </div>
       </main>
     </div>
   );
