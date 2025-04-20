@@ -6,12 +6,12 @@ from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 
-
 from flask import Flask, redirect, render_template, session, url_for, request
 import os
 from source.config import DevelopmentConfig, ProductionConfig
 
 import source.handlers.auth as auth
+import source.sql.db as db
 
 # Load the .env file
 envFile = find_dotenv()
@@ -46,6 +46,9 @@ oauth.register(
 )
 
 app.config['0AUTH']=oauth
+
+# Close the database
+app.teardown_appcontext(db.close_db)
 
 ##### Endpoints #####
 # Homepage

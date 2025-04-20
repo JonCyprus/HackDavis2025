@@ -11,8 +11,10 @@ def LoginCallback(app):
     oauth = app.config['0AUTH']
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
+    print(token)
 
     # Add the user to the SQL database
     userEmail = token['userinfo']['email']
+
 
     return redirect("/")
