@@ -6,11 +6,11 @@ from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 
-from flask import Flask, redirect, render_template, session, url_for, request
+from flask import Flask, redirect, render_template, session, url_for, request, g
 import os
 from source.config import DevelopmentConfig, ProductionConfig
 
-import source.handlers.auth as auth
+import source.handlers as handlers
 import source.sql.db as db
 
 # Load the .env file
@@ -47,15 +47,13 @@ oauth.register(
 
 app.config['0AUTH']=oauth
 
-# Close the database
-app.teardown_appcontext(db.close_db)
-
 ##### Endpoints #####
 # Homepage
 @app.route("/")
 def home():
-    return render_template("index.html", session=session.get('user'),
-                           pretty=json.dumps(session.get('user'), indent=4))
+    user = session.get('user')
+    return render_template("index.html", session=user,
+                           pretty=json.dumps(user, indent=4))
 
 ## User endpoints
 # All Users resource
@@ -67,14 +65,12 @@ def GetUsersEndpoint():
 @app.route('/login', methods=['GET'])
 def LoginEndpoint():
     if request.method == 'GET':
-        return auth.LoginUser(app)
+        return handlers.LoginUser(app)
 
 # Callback from login
 @app.route("/callback", methods=['GET', "POST"])
 def callback():
-    token = oauth.auth0.authorize_access_token()
-    session["user"] = token
-    return redirect("/")
+    return handlers.LoginCallback(app)
 
 @app.route("/logout")
 def logout():
@@ -84,12 +80,18 @@ def logout():
         + "/v2/logout?"
         + urlencode(
             {
-                "returnTo": url_for("home", _external=True),
+                "returnTo": url_for("/", _external=True),
                 "client_id": os.getenv("AUTH0_CLIENT_ID"),
             },
             quote_via=quote_plus,
         )
     )
+
+@app.route("/test/createTask")
+def testCreateTaskEndpoint():
+    return handlers.testCreateTask(app)
+
 # Listen and serve requests
 if __name__ == '__main__':
     app.run(host="127.0.0.1", port=os.getenv("PORT", 5000))
+
