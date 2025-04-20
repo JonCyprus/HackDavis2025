@@ -1,7 +1,8 @@
 from source.respondWithJSON import respondWithJSON
-from . import prompting
+from . import prompting # import from \source\handlers\prompting.py
+import json
 
 def ChatPrompt(app, request):
-    message = request.json.get('prompt')
-    prompting.cerebrasChat(app, message)
-    return 
+    jsonReq = request.get_json()
+    message = jsonReq.json.get("message")
+    return json.jsonify({"response": prompting.cerebrasChat(app, message)}), 200
