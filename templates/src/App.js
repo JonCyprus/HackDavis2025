@@ -23,12 +23,8 @@ function App() {
       onChange={(e) => setState(e.target.value)}
     >
       <option value="home">🏠 Home</option>
-<<<<<<< Updated upstream
-      <option value="newTask">➕ New Task (AI)</option>
-=======
       <option value="taskyCommand">➕ New Task (AI)</option>
       <option value="makeTask">✍️ Manual Task</option>
->>>>>>> Stashed changes
       <option value="task">📋 Task List</option>
       <option value="taskyTalk">💬 Talk to Tasky</option>
     </select>
