@@ -1,5 +1,5 @@
-flask~=3.1.0
+flask
 cerebras_cloud_sdk
-python-dotenv~=1.1.0
-prompt_toolkit~=3.0.48
-Authlib~=1.5.2
+python-dotenv
+prompt_toolkit
+authlib~
