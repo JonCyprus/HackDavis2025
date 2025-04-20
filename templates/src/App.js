@@ -71,7 +71,7 @@ function App() {
       </main>
   </div>);
 
-// note: below page is static text, will be replaced with user inputs
+// note: below page is src text, will be replaced with user inputs
   const taskPg = (<div className="App">
     <main className="task">
       <h1>Task Name</h1>

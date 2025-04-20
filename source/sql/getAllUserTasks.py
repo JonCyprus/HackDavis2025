@@ -1,6 +1,6 @@
 import psycopg2
 from source.sql.db import get_db
-import uuid
+
 
 def getAllUserTasks(email):
     conn = get_db()

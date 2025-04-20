@@ -5,12 +5,11 @@ from urllib.parse import quote_plus, urlencode
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 
-from flask import Flask, redirect, render_template, session, url_for, request, g
+from flask import Flask, redirect, render_template, session, url_for, request, send_from_directory
 import os
 from source.config import DevelopmentConfig, ProductionConfig
 
 import source.handlers as handlers
-import source.sql.db as db
 
 # Load the .env file
 envFile = find_dotenv()
@@ -18,7 +17,7 @@ if envFile:
     load_dotenv(envFile)
 
 # Start up the application
-app = Flask(__name__)
+app = Flask(__name__, static_folder="templates/build/static", template_folder="templates/build")
 
 # Pick the config
 env = os.getenv("FLASK_ENV", "development")
@@ -48,11 +47,13 @@ app.config['0AUTH']=oauth
 
 ##### Endpoints #####
 # Homepage
-@app.route("/")
-def home():
-    user = session.get('user')
-    return render_template("index.html", session=user,
-                           pretty=json.dumps(user, indent=4))
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def serve_react(path):
+    fullPath = os.path.join("templates", "build", path)
+    if path != "" and os.path.exists(fullPath):
+        return send_from_directory("templates/build", path)
+    return send_from_directory("templates/build", "index.html")
 
 # All Users resource
 @app.route('/users', methods=['GET'])
@@ -102,5 +103,5 @@ def CommandPromptEndpoint():
 
 # Listen and serve requests
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=os.getenv("PORT", 5009))
+    app.run(host="127.0.0.1", port=os.getenv("PORT", 5000))
 

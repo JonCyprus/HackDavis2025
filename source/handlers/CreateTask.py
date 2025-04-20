@@ -1,5 +1,4 @@
 ## Testing for task creation
-from flask import session
 from source.getEmail import getSessionEmail
 from source.sql import createTask
 from source.respondWithJSON import respondWithJSON
