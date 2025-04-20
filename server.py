@@ -61,7 +61,7 @@ def GetUsersEndpoint():
     if request.method == 'GET':
         return GetAllUsers(app)
 # Login
-@app.route('/login', methods=['GET'])
+@app.route('/api/auth/login', methods=['GET'])
 def LoginEndpoint():
     if request.method == 'GET':
         return handlers.LoginUser(app)
