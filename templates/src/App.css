@@ -59,6 +59,7 @@ main{
 .taskyZone{
   display: flex;
   flex-direction: column;
+  width: fit-content;
 }
 
 .tasky{
@@ -76,12 +77,28 @@ main.task{
   background-color: var(--sign);
   border: solid 0.5em var(--wood);
   padding: 1em;
-  height: 100%;
+  width: fit-content;
+  height: fit-content;
+  
 }
 
 .taskyCircle{
   position: absolute;
-  right: 0.5em;
+  right: 0;
+  bottom: 0;
+}
+
+input[type=text]{
+  border-color: var(--dGreenHill);
+}
+
+input[type=text]:focus{
+  border-color: var(--lGreenHill);
+}
+
+.taskForm input{
+  display: block;
+  margin: auto;
 }
 
 @media screen and (min-width:750px){
