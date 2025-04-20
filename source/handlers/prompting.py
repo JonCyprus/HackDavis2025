@@ -128,7 +128,8 @@ def cerebrasCommand(app, prompt):
 
     aiPrompt = "You are a task scheduling assistant, translating regular text into an object with multiple parameters. \
 You must interpret a command that the user is trying to execute. The available commands are: \
-ADD, DELETE, EDIT. \
+ADD, DELETE, EDIT, NULL. \
+If the message is not a command, return NULL, and ask for better input. \
 Fill in any remaining fields as required, or as specified by the user. \
 Include a small response, describing what it is you did. \
 The current date and time is: " + str(datetime.today().replace(second=0, microsecond=0)) + ". \
