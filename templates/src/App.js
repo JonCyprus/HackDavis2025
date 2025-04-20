@@ -145,6 +145,7 @@ function App() {
     </main>
   </div>);
 
+  // Page for creating new tasks
   const newTaskPg = (<div className="App">
     <main className="newTask">
       <div className="taskyZone">
@@ -157,18 +158,10 @@ function App() {
       </div>
       <div className="taskForm">
         <input
-          name="talkToTasky"
-          type="text"
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          onKeyDown={handleTaskyInput}
-          placeholder="Tell me about your task..."
-        />
-        <input
-          type = "text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
         />
         <input
             type="text"
@@ -189,9 +182,34 @@ function App() {
             onChange={(e) => setTime(e.target.value)}
         />
         <button onClick={handleCreate}>Create Task</button>
-      </div>
+        <button onClick={() => setState('taskyTalk')}>Talk to Tasky</button>
 
+      </div>
     </main>
+  </div>);
+
+  const taskyTalk = (<div className="App">
+  <main className="newTask">
+      <div className="taskyZone">
+        <div className="dialog">
+          {error && <p className="error">{error}</p>}
+          {isLoading && <p>Thonking...</p>}
+          <p>{resp}</p>
+        </div>
+        <Tasky/>
+      </div>
+    <div className="taskForm">
+      <input
+          name="talkToTasky"
+          type="text"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          onKeyDown={handleTaskyInput}
+          placeholder="Tell me about your task..."
+      />
+      <button onClick={() => setState('newTask')}>Make Tasks!</button>
+    </div>
+  </main>
   </div>);
 
   const taskPg = (<div className="App">
@@ -228,6 +246,8 @@ switch(state){
     return newTaskPg;
   case "task":
     return taskPg;
+  case "taskyTalk":
+    return taskyTalk;
   default:
     return notLoggedInHomePg;
 }
