@@ -24,7 +24,7 @@ function App() {
     >
       <option value="home">🏠 Home</option>
       <option value="taskyCommand">➕ New Task (AI)</option>
-      <option value="makeTask">✍️ Manual Task</option>
+      <option value="newTask">✍️ Manual Task</option>
       <option value="task">📋 Task List</option>
       <option value="taskyTalk">💬 Talk to Tasky</option>
     </select>
