@@ -5,9 +5,10 @@ from urllib.parse import quote_plus, urlencode
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 
-from flask import Flask, redirect, render_template, session, url_for, request, g
+from flask import Flask, redirect, render_template, session, url_for, request, g, jsonify
 import os
 from source.config import DevelopmentConfig, ProductionConfig
+from flask_cors import CORS  # You'll need to install this
 
 import source.handlers as handlers
 import source.sql.db as db
@@ -19,6 +20,7 @@ if envFile:
 
 # Start up the application
 app = Flask(__name__)
+CORS(app, supports_credentials=True)
 
 # Pick the config
 env = os.getenv("FLASK_ENV", "development")
@@ -90,6 +92,36 @@ def logout():
 @app.route("/test/createTask", methods=["POST"])
 def CreateTaskEndpoint():
     return handlers.CreateTask(app, request)
+
+@app.route('/api/tasks', methods=['GET'])
+def get_tasks():
+    if 'user' not in session:
+        return jsonify({'error': 'Not authenticated'}), 401
+    # Get tasks from database
+    return jsonify(tasks)
+
+@app.route('/api/tasks', methods=['POST'])
+def create_task():
+    if 'user' not in session:
+        return jsonify({'error': 'Not authenticated'}), 401
+    data = request.json
+    # Create task in database
+    return jsonify(new_task)
+
+@app.route('/api/chat', methods=['POST'])
+def chat():
+    if 'user' not in session:
+        return jsonify({'error': 'Not authenticated'}), 401
+    message = request.json.get('message')
+    # Process with Cerebras AI
+    return jsonify({'response': ai_response})
+
+@app.route('/api/auth/status')
+def auth_status():
+    return jsonify({
+        'authenticated': 'user' in session,
+        'user': session.get('user')
+    })
 
 # Listen and serve requests
 if __name__ == '__main__':
