@@ -1,6 +1,6 @@
 # This handles the authorization of the application
 from flask import url_for, session, redirect
-import source.sql.createUser as query
+from source.sql import createUser
 
 def LoginUser(app):
     return app.config['0AUTH'].auth0.authorize_redirect(
@@ -15,6 +15,6 @@ def LoginCallback(app):
     # Add the user to the SQL database
     userEmail = token['userinfo']['email']
     userPic = token['userinfo']['picture']
-    query.createUser(userEmail, userPic)
+    createUser(userEmail, userPic)
 
     return redirect("/")
