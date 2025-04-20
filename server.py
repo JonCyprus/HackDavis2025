@@ -52,8 +52,8 @@ app.config['0AUTH']=oauth
 def serve_react(path):
     fullPath = os.path.join("templates", "build", path)
     if path != "" and os.path.exists(fullPath):
-        return send_from_directory("templates/build", path)
-    return send_from_directory("templates/build", "index.html")
+        return send_from_directory(app.template_folder, path)
+    return send_from_directory(app.template_folder, "index.html")
 
 # All Users resource
 @app.route('/users', methods=['GET'])
