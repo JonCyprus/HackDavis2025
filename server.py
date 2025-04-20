@@ -5,7 +5,7 @@ from urllib.parse import quote_plus, urlencode
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 
-from flask import Flask, redirect, render_template, session, url_for, request, send_from_directory
+from flask import Flask, redirect, render_template, session, url_for, request, send_from_directory, jsonify
 import os
 from source.config import DevelopmentConfig, ProductionConfig
 
@@ -70,6 +70,12 @@ def LoginEndpoint():
 @app.route("/callback", methods=['GET', "POST"])
 def callback():
     return handlers.LoginCallback(app)
+
+@app.route("/me")
+def me():
+    user = session.get("user")
+    return jsonify({"user": user})
+
 
 # Logout from user session
 @app.route("/logout")

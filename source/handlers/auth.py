@@ -17,4 +17,4 @@ def LoginCallback(app):
     userPic = token['userinfo']['picture']
     createUser(userEmail, userPic)
 
-    return redirect("/")
+    return redirect("/home")
