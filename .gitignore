@@ -23,3 +23,5 @@ templates/.env.production.local
 templates/npm-debug.log*
 templates/yarn-debug.log*
 templates/yarn-error.log*
+
+__pycache__
