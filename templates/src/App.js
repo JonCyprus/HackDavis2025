@@ -8,7 +8,7 @@ function App() {
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const[resp, setResp] = useState('')
+  const[resp, setResp] = useState("Heya, I'm Tasky, and I'm here to help you complete your tasks!")
 
   // Manual task creation
   const [title, setTitle] = useState("")
@@ -24,7 +24,6 @@ function App() {
     >
       <option value="home">🏠 Home</option>
       <option value="newTask">➕ New Task (AI)</option>
-      <option value="makeTask">✍️ Manual Task</option>
       <option value="task">📋 Task List</option>
       <option value="taskyTalk">💬 Talk to Tasky</option>
     </select>
@@ -60,7 +59,7 @@ function App() {
         const status = await authService.checkAuth();
         if (status.authenticated) {
           setState('home');
-          loadTasks();
+          await taskService.getTasks();
         }
       } catch (error) {
         console.error('Auth check failed:', error);
@@ -79,6 +78,19 @@ function App() {
       setError('Failed to load tasks');
     }
   };
+
+  // loadtasks on page
+  useEffect(() => {
+  const maybeLoadTasks = async () => {
+    if (state === 'task') {
+      const fetchedTasks = await taskService.getTasks();
+      setTasks(fetchedTasks);
+    }
+  };
+
+  maybeLoadTasks();
+}, [state]);
+
 
   // Handle task input
   const handleTaskyInput = async (e) => {
@@ -107,11 +119,16 @@ function App() {
   };
 
   function Tasky(){
-    return <img src="images/tasky-01.svg" className="tasky" alt="tasky, a fluffy yellow blob with big eyes" />;
+    const taskySprites = [(<img src="images/tasky-01.svg" className="tasky" alt="tasky, a fluffy yellow blob with big eyes" />), (<img src="images/tasky-02.svg" className="tasky" alt="tasky, a fluffy yellow blob, looks pensive" />), (<img src="images/tasky-03.svg" className="tasky" alt="tasky, a fluffy yellow blob, looks excited!" />)]
+    return taskySprites[0];
   }
 
   const CloudBtn = (props) => {
     return <button className="cloudBtn" onClick={props.goToNewTask}>New Task</button>
+  }
+
+  const ManualTaskBtn = (props) => {
+    return <button className="manualTaskBtn" onClick={props.goToManualTask}>Enter task manually</button>
   }
 
   const notLoggedInHomePg = (<div className="App">
@@ -159,6 +176,13 @@ function App() {
         </div>
         <Tasky/>
       </div>
+      <p>or</p>
+      <ManualTaskBtn goToManualTask={() => setState('manualTask')}/>
+    </main>
+  </div>);
+
+  const manualTaskPg = (
+    <main className="manualTask">
       <div className="taskForm">
         <input
             type="text"
@@ -187,7 +211,7 @@ function App() {
         <button onClick={handleCreate}>Create Task</button>
       </div>
     </main>
-  </div>);
+  );
 
   const taskyTalk = (<div className="App">
   <main className="newTask">
@@ -212,27 +236,39 @@ function App() {
   </main>
   </div>);
 
-  const taskPg = (<div className="App">
+const taskPg = (
+  <div className="App">
     <main className="task">
-      {tasks.map(task => (
-          <div key={task.id} className="task-item">
-            <h1>{task.title}</h1>
-            <span className="day">{task.date}</span> <span className="time">{task.time}</span>
+      {tasks.length === 0 && <p>No tasks yet.</p>}
 
-            <h3>Desctiption:</h3>
-            <p>{task.description}</p>
+      {tasks.map((task, index) => (
+        <div key={task.TASKID || index} className="task-item">
+          <h2>{task.TITLE}</h2>
 
-            <h2>Steps:</h2>
-            <div className="subtask">{task.steps?.map((step, index) => (
-                <div key={index} className="subtask">{step}</div>
-            ))}</div>
-          </div>
+          {task.DESC ? (
+            <p><strong>Description:</strong> {task.DESC}</p>
+          ) : null}
+
+          {task.steps?.length > 0 && (
+            <div className="subtasks">
+              <p><strong>Subtasks:</strong></p>
+              <ul>
+                {task.steps.map((step, idx) => (
+                  <li key={idx}>{step}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       ))}
     </main>
+
     <div className="taskyCircle">
-        <Tasky />
+      <Tasky />
     </div>
-  </div>);
+  </div>
+);
+
 
 
 return (
@@ -246,6 +282,8 @@ return (
           return homePg;
         case "newTask":
           return newTaskPg;
+        case "manualTask":
+          return manualTaskPg;
         case "task":
           return taskPg;
         case "taskyTalk":
