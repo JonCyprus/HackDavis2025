@@ -2,7 +2,6 @@
 import json
 from urllib.parse import quote_plus, urlencode
 
-from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 
@@ -87,9 +86,10 @@ def logout():
         )
     )
 
-@app.route("/test/createTask")
-def testCreateTaskEndpoint():
-    return handlers.testCreateTask(app)
+# Create a task endpoint
+@app.route("/test/createTask", methods=["POST"])
+def CreateTaskEndpoint():
+    return handlers.CreateTask(app, request)
 
 # Listen and serve requests
 if __name__ == '__main__':
