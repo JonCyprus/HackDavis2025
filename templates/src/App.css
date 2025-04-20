@@ -27,3 +27,50 @@ body{
   height: 58vh;
   border-radius: 80% 65% 0 0;
 }
+
+.hill3{
+  display: none;
+}
+
+@media screen and (min-width:750px){
+  .hill1{
+    bottom: -3vh;
+    height: 55vh;
+    border-radius: 80% 115% 0 0;
+  }
+  
+  .hill2{
+    bottom: -4vw;
+    width:110vw;
+  }
+}
+
+@media screen and (min-width:950px){
+  .hill1{
+    bottom: -3vh;
+    left:-8vw;
+    width:80vw;
+    height: 56vh;
+    border-radius: 150% 220% 0 0;
+  }
+  
+  .hill2{
+    bottom: -3vw;
+    right:-22vw;
+    width:80vw;
+    height: 59vh;
+    border-radius: 80% 65% 0 0;  
+  }
+
+  .hill3{
+    display: block;
+    background-color: var(--lGreenHill);
+    position: fixed;
+    z-index: 0;
+    bottom: 0;
+    right:-25vw;
+    width: 60vw;
+    height:35vh;
+    border-radius: 90% 85% 0 0;
+  }
+}
