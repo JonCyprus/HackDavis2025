@@ -6,5 +6,6 @@ from .CreateTask import CreateTask
 from .ChatPrompt import ChatPrompt
 from .CommandPrompt import CommandPrompt
 from .getAllTasks import getAllTasks
+from .getAllSubtasks import getAllSubtasks
 
-__all__ = ['auth', 'CreateTask', 'getAllTasks', 'ChatPrompt', 'CommandPrompt']
+__all__ = ['auth', 'CreateTask', 'getAllTasks', 'ChatPrompt', 'CommandPrompt', 'getAllSubtasks']

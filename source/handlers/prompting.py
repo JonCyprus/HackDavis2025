@@ -6,6 +6,7 @@ import os
 import json
 # from dotenv import load_dotenv, find_dotenv
 from source.sql.getAllUserTasks import getAllUserTasks
+from source.sql.createTask import createTask
 from cerebras.cloud.sdk import Cerebras # pip install --upgrade cerebras_cloud_sdk
 from enum import Enum
 from datetime import datetime
@@ -59,7 +60,7 @@ The current date and time is: \
         else:
             time = str(DT.time().replace(second=0, microsecond=0))
             date = str(DT.date())
-        currentTask = "Title: %s, Description: %s, Date: %s, Time: %s, Completion: %s\n" % (task[0], task[1], date, time, str(task[3]))
+        currentTask = "Title: %s, Description: %s, Date: %s, Time: %s, Completion: %s \n " % (task[0], task[1], date, time, str(task[3]))
         formattedPrompt += currentTask
     return formattedPrompt
 
@@ -102,3 +103,86 @@ def cerebrasChat(app, prompt):
     app.config["CURRENT_CONVERSATION"] = currentChat
 
     return aiResponse
+
+# parse the user input into a command readable by "execute command" with Cerebras
+def cerebrasCommand(app, prompt):
+    type_string = {"type": "string"}
+    task_schema = {
+        "type": "object",
+        "properties": {
+            "command": type_string,
+            "title": type_string,
+            "description": type_string,
+            "date": type_string,
+            "time": type_string,
+            "response": type_string
+        },
+        "required": ["command", "title", "date", "time"],
+        "additionalProperties": False
+    }
+
+    client = Cerebras(
+        api_key=app.config["CEREBRAS_API_KEY"]
+    )
+
+    aiPrompt = "You are a task scheduling assistant, translating regular text into an object with multiple parameters. \
+You must interpret a command that the user is trying to execute. The available commands are: \
+ADD, REMOVE, EDIT. \
+Fill in any remaining fields as required, or as specified by the user. \
+Include a small response, describing what it is you did. \
+The current date and time is: " + str(datetime.today().replace(second=0, microsecond=0)) + ". \
+A list of current scheduled tasks is as follows:\n "
+    tasks = getTasks(app)
+    fPrompt = ""
+    for task in tasks:
+        DT = task[5]
+        if (DT == None):
+            time = "None"
+            date = "None"
+        else:
+            time = str(DT.time().replace(second=0, microsecond=0))
+            date = str(DT.date())
+        fPrompt += "Title: %s, Description: %s, Date: %s, Time: %s, Completion: %s \n " % (task[column.TITLE.value], task[column.DESC.value], date, time, str(task[column.COMPLETE.value]))
+
+    aiPrompt += fPrompt
+
+    currChat=[{"role": "system", "content": aiPrompt}]
+
+    # Add user input to conversation history.
+    print(prompt)
+    currChat.append({"role": "user", "content": str(prompt)})
+    print(currChat)
+
+    # Start a stream
+    chat = client.chat.completions.create(
+        model="llama-4-scout-17b-16e-instruct",
+        messages=currChat,
+        response_format={
+        "type": "json_schema", 
+        "json_schema": {
+            "name": "task_schema",
+            "strict": True,
+            "schema": task_schema
+        }
+    }
+    )
+
+    print("Connected successfully with Cerebras, \\source\\handlers\\prompting.py")
+
+    # Add AI response to conversation history
+    task_data = json.loads(chat.choices[0].message.content)
+    print(task_data)
+    print(json.dumps(task_data, indent=2))
+
+    executeCommand(app, task_data)
+    return task_data.get("response")
+
+
+def executeCommand(app, params):
+    command = params.get("command")
+    if command == "ADD":
+        date_string = params.get("date") + " " + params.get("time")
+        DT_OBJ = datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
+        createTask(getSessionEmail(), params.get("title"), params.get("description"), DT_OBJ,
+                   None, False)
+        
