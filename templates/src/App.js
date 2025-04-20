@@ -24,6 +24,7 @@ function App() {
     >
       <option value="home">🏠 Home</option>
       <option value="newTask">➕ New Task (AI)</option>
+      <option value="makeTask">✍️ Manual Task</option>
       <option value="task">📋 Task List</option>
       <option value="taskyTalk">💬 Talk to Tasky</option>
     </select>
@@ -59,7 +60,7 @@ function App() {
         const status = await authService.checkAuth();
         if (status.authenticated) {
           setState('home');
-          await taskService.getTasks();
+          loadTasks();
         }
       } catch (error) {
         console.error('Auth check failed:', error);
@@ -78,19 +79,6 @@ function App() {
       setError('Failed to load tasks');
     }
   };
-
-  // loadtasks on page
-  useEffect(() => {
-  const maybeLoadTasks = async () => {
-    if (state === 'task') {
-      const fetchedTasks = await taskService.getTasks();
-      setTasks(fetchedTasks);
-    }
-  };
-
-  maybeLoadTasks();
-}, [state]);
-
 
   // Handle task input
   const handleTaskyInput = async (e) => {
@@ -236,39 +224,27 @@ function App() {
   </main>
   </div>);
 
-const taskPg = (
-  <div className="App">
+  const taskPg = (<div className="App">
     <main className="task">
-      {tasks.length === 0 && <p>No tasks yet.</p>}
+      {tasks.map(task => (
+          <div key={task.id} className="task-item">
+            <h1>{task.title}</h1>
+            <span className="day">{task.date}</span> <span className="time">{task.time}</span>
 
-      {tasks.map((task, index) => (
-        <div key={task.TASKID || index} className="task-item">
-          <h2>{task.TITLE}</h2>
+            <h3>Desctiption:</h3>
+            <p>{task.description}</p>
 
-          {task.DESC ? (
-            <p><strong>Description:</strong> {task.DESC}</p>
-          ) : null}
-
-          {task.steps?.length > 0 && (
-            <div className="subtasks">
-              <p><strong>Subtasks:</strong></p>
-              <ul>
-                {task.steps.map((step, idx) => (
-                  <li key={idx}>{step}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
+            <h2>Steps:</h2>
+            <div className="subtask">{task.steps?.map((step, index) => (
+                <div key={index} className="subtask">{step}</div>
+            ))}</div>
+          </div>
       ))}
     </main>
-
     <div className="taskyCircle">
-      <Tasky />
+        <Tasky />
     </div>
-  </div>
-);
-
+  </div>);
 
 
 return (
