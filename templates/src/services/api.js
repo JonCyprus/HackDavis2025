@@ -4,7 +4,7 @@ export const taskService = {
     // Create a new task
     createTask: async (taskData) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/tasks`, {
+            const response = await fetch(`${API_BASE_URL}/task`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export const taskService = {
     // Get AI suggestions for task
     getAISuggestions: async (userInput) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/chat`, {
+            const response = await fetch(`${API_BASE_URL}/prompt/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export const taskService = {
     // Send raw user input to backend
     sendTaskRequest: async (userInput) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/task`, {
+            const response = await fetch(`${API_BASE_URL}/prompt/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -96,6 +96,7 @@ def logout():
 # Create a task endpoint
 @app.route("/api/task", methods=["POST"])
 def CreateTaskEndpoint():
+    print("/api/task called.")
     return handlers.CreateTask(app, request)
 
 # Send a prompt endpoint
@@ -111,9 +112,16 @@ def auth_status():
         'authenticated': 'user' in session,
         'user': session.get('user')
     })
+
+# Return 
 @app.route("/api/prompt/command", methods=["POST"])
 def CommandPromptEndpoint():
     return handlers.CommandPrompt(app, request)
+
+# Return current tasks in database
+@app.route("/api/tasks", methods=["GET"])
+def ReturnTasksEndpoint():
+    return handlers.getAllTasks(app)
 
 # Listen and serve requests
 if __name__ == '__main__':

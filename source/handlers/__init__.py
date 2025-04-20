@@ -5,5 +5,6 @@ from .prompting import cerebrasChat
 from .CreateTask import CreateTask
 from .ChatPrompt import ChatPrompt
 from .CommandPrompt import CommandPrompt
+from .getAllTasks import getAllTasks
 
-__all__ = ['auth', 'prompting', 'CreateTask']
+__all__ = ['auth', 'CreateTask', 'getAllTasks', 'ChatPrompt', 'CommandPrompt']

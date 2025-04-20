@@ -42,7 +42,8 @@ function App() {
       setIsLoading(true);
       try {
         // Send raw input to backend
-        const response = await taskService.sendTaskRequest(userInput);
+        console.log('User input is: ', userInput)
+        const response = await taskService.getAISuggestions(userInput);
         console.log('Server response:', response);
         
         // Handle response as needed
@@ -118,7 +119,7 @@ function App() {
         <div className="taskyZone">
           <div className="dialog">
             {error && <p className="error">{error}</p>}
-            {isLoading && <p>Thinking...</p>}
+            {isLoading && <p>Thonking...</p>}
           </div>
           <Tasky />
         </div>
