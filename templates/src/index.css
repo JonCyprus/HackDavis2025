@@ -6,8 +6,11 @@
   --dGreenHill: #3F7743;
   --sign: #FAF7F7;
   --wood: #885E3F;
+  --accentColor: #770b59;
   --dbText: #0F0633;
   --dpText: #3d082e;
+  --blueGrayText: #2f2b50;
+
 
   font-family: "Jost", sans-serif;
   font-weight: 400;
@@ -31,4 +34,8 @@ h1, h2, h3, p, ul, ol{
 
 body{
   background-color: var(--blueSky);
+}
+
+a{
+  text-decoration: none;
 }

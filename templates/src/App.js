@@ -137,7 +137,7 @@ function App() {
   }
 
   const CloudBtn = (props) => {
-    return <button className="cloudBtn" onClick={props.goToNewTask}>New Task</button>
+    return <button className="cloudBtn" onClick={props.goToTaskyCommand}>New Task</button>
   }
 
   const ManualTaskBtn = (props) => {
@@ -151,7 +151,7 @@ function App() {
       </h1>
     </header>
     <main className="notLoggedInHome">
-      <h3>Make an account!</h3>
+      <h3>Make an account:</h3>
       <a href="/api/auth/login" className="login-btn">Log in</a>
     </main>
     <div className="bg">
@@ -168,7 +168,7 @@ function App() {
       </h1>
     </header>
     <main className="home">
-      <CloudBtn goToNewTask={() => setState('newTask')}/>
+      <CloudBtn goToTaskyCommand={() => setState('taskyCommand')}/>
     </main>
 
     <div className="bg">
@@ -178,8 +178,8 @@ function App() {
     </div>
   </div>);
 
-  const newTaskPg = (<div className="App">
-    <main className="newTask">
+const taskyCommand = (<div className="App">
+  <main className="newTask">
       <div className="taskyZone">
         <div className="dialog">
           {error && <p className="error">{error}</p>}
@@ -188,9 +188,19 @@ function App() {
         </div>
         <Tasky/>
       </div>
-      <p>or</p>
-      <ManualTaskBtn goToManualTask={() => setState('manualTask')}/>
-    </main>
+    <div className="taskForm">
+      <input
+          name="talkToTasky"
+          type="text"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          onKeyDown={handleTaskyCommand}
+          placeholder="Tell me about your task ^-^"
+      />
+    </div>
+    <p class="seperatorTxt">or...</p>
+    <ManualTaskBtn goToManualTask={() => setState('manualTask')}/>
+  </main>
   </div>);
 
   const manualTaskPg = (
@@ -249,52 +259,6 @@ function App() {
   </main>
   </div>);
 
-const taskyCommand = (<div className="App">
-  <main className="newTask">
-      <div className="taskyZone">
-        <div className="dialog">
-          {error && <p className="error">{error}</p>}
-          {isLoading && <p>Thonking...</p>}
-          <p>{resp}</p>
-        </div>
-        <Tasky/>
-      </div>
-    <div className="taskForm">
-      <input
-          name="talkToTasky"
-          type="text"
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          onKeyDown={handleTaskyCommand}
-          placeholder="What should I do?"
-      />
-    </div>
-  </main>
-  </div>);
-
-  const taskPg = (<div className="App">
-    <main className="task">
-      {tasks.map(task => (
-          <div key={task.id} className="task-item">
-            <h1>{task.title}</h1>
-            <span className="day">{task.date}</span> <span className="time">{task.time}</span>
-
-            <h3>Desctiption:</h3>
-            <p>{task.description}</p>
-
-            <h2>Steps:</h2>
-            <div className="subtask">{task.steps?.map((step, index) => (
-                <div key={index} className="subtask">{step}</div>
-            ))}</div>
-          </div>
-      ))}
-    </main>
-    <div className="taskyCircle">
-        <Tasky />
-    </div>
-  </div>);
-
-
 return (
   <>
     <NavBar />
@@ -306,8 +270,8 @@ return (
           return homePg;
         case "manualTask":
           return manualTaskPg;
-        case "task":
-          return taskPg;
+        // case "task":
+        //   return taskPg;
         case "taskyTalk":
           return taskyTalk;
         case "taskyCommand":

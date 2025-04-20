@@ -6,11 +6,6 @@ header{
   text-align: center;
 }
 
-h1{
-  font-family: "Pangolin", cursive;
-  margin: 1em auto;
-}
-
 main{
   margin: 1rem;
 }
@@ -19,6 +14,44 @@ button{
   font-family: "Pangolin", cursive;
   color: var(--dpText);
   margin: auto;
+  font-size: 1.1em;
+}
+
+h1{
+  font-family: "Pangolin", cursive;
+  margin: 1em auto;
+  font-size: 2.5em;
+}
+
+h2{
+  font-size: 1.7em;
+  margin-bottom: 1em;
+}
+
+h3{
+  font-size: 1.45em;
+  margin-bottom: 1em;
+}
+
+p{
+  font-size: 1.1em;
+}
+
+a.login-btn{
+  color: var(--sign);
+  background-color: var(--accentColor);
+  font-family: "Pangolin", cursive;
+  font-size: 1.7em;
+  padding: 0.5em;
+  border-radius: 2em;
+}
+
+.notLoggedInHome{
+  text-align: center;
+}
+
+main.home{
+  display: flex;
 }
 
 .cloudBtn{
@@ -39,7 +72,7 @@ button{
   right:-5vw;
   width:120vw;
   height: 52vh;
-  border-radius: 60% 75% 0 0;
+  border-radius: 50em 60em 0 0;
 }
 
 .hill2{
@@ -59,7 +92,15 @@ button{
 
 .taskSign{
   background-color: var(--sign);
-  border: solid 0.5em var(--sign);
+  border: solid 0.5em var(--wood);
+  width: fit-content;
+  height: fit-content;
+}
+
+.newTask{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .taskyZone{
@@ -70,13 +111,37 @@ button{
 
 .tasky{
   max-width: 8em;
+  margin-bottom: 1em;
 }
 
 .dialog{
   background-color: var(--sign);
   border-radius: 1.5em;
-  padding: 1em;
   max-width: 20em;
+  padding: 1em;
+  margin: 1em;
+}
+
+.seperatorTxt{
+  color: var(--blueGrayText);
+  text-align: center;
+}
+
+.manualTaskBtn{
+  margin: 0.5em;
+}
+
+input[type=text]{
+  outline-color: var(--dGreenHill);
+}
+
+input[type=text]:focus{
+  outline-color: var(--lGreenHill);
+}
+
+.taskForm input{
+  display: block;
+  margin: auto;
 }
 
 main.task{
@@ -92,19 +157,6 @@ main.task{
   position: absolute;
   right: 0;
   bottom: 0;
-}
-
-input[type=text]{
-  outline-color: var(--dGreenHill);
-}
-
-input[type=text]:focus{
-  outline-color: var(--lGreenHill);
-}
-
-.taskForm input{
-  display: block;
-  margin: auto;
 }
 
 @media screen and (min-width:750px){
