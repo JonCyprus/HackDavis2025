@@ -21,6 +21,10 @@ button{
   margin: auto;
 }
 
+.notLoggedInHome{
+  text-align: center;
+}
+
 .cloudBtn{
   border: none;
   background-color: transparent;
@@ -59,7 +63,15 @@ button{
 
 .taskSign{
   background-color: var(--sign);
-  border: solid 0.5em var(--sign);
+  border: solid 0.5em var(--wood);
+  width: fit-content;
+  height: fit-content;
+}
+
+.newTask{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .taskyZone{
@@ -70,13 +82,37 @@ button{
 
 .tasky{
   max-width: 8em;
+  margin-bottom: 1em;
 }
 
 .dialog{
   background-color: var(--sign);
   border-radius: 1.5em;
-  padding: 1em;
   max-width: 20em;
+  padding: 1em;
+  margin: 1em;
+}
+
+.seperatorTxt{
+  color: var(--blueGrayText);
+  text-align: center;
+}
+
+.manualTaskBtn{
+  margin: 0.5em;
+}
+
+input[type=text]{
+  outline-color: var(--dGreenHill);
+}
+
+input[type=text]:focus{
+  outline-color: var(--lGreenHill);
+}
+
+.taskForm input{
+  display: block;
+  margin: auto;
 }
 
 main.task{
@@ -92,19 +128,6 @@ main.task{
   position: absolute;
   right: 0;
   bottom: 0;
-}
-
-input[type=text]{
-  outline-color: var(--dGreenHill);
-}
-
-input[type=text]:focus{
-  outline-color: var(--lGreenHill);
-}
-
-.taskForm input{
-  display: block;
-  margin: auto;
 }
 
 @media screen and (min-width:750px){

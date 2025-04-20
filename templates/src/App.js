@@ -23,11 +23,7 @@ function App() {
       onChange={(e) => setState(e.target.value)}
     >
       <option value="home">🏠 Home</option>
-<<<<<<< HEAD
-      <option value="newTask">➕ New Task (AI)</option>
-=======
       <option value="taskyCommand">➕ New Task (AI)</option>
->>>>>>> cd5e70f2f8ab04cc902674336b3a4b2ecb071b3c
       <option value="makeTask">✍️ Manual Task</option>
       <option value="task">📋 Task List</option>
       <option value="taskyTalk">💬 Talk to Tasky</option>
@@ -141,7 +137,7 @@ function App() {
   }
 
   const CloudBtn = (props) => {
-    return <button className="cloudBtn" onClick={props.goToNewTask}>New Task</button>
+    return <button className="cloudBtn" onClick={props.goToTaskyCommand}>New Task</button>
   }
 
   const ManualTaskBtn = (props) => {
@@ -172,7 +168,7 @@ function App() {
       </h1>
     </header>
     <main className="home">
-      <CloudBtn goToNewTask={() => setState('newTask')}/>
+      <CloudBtn goToTaskyCommand={() => setState('taskyCommand')}/>
     </main>
 
     <div className="bg">
@@ -182,8 +178,8 @@ function App() {
     </div>
   </div>);
 
-  const newTaskPg = (<div className="App">
-    <main className="newTask">
+const taskyCommand = (<div className="App">
+  <main className="newTask">
       <div className="taskyZone">
         <div className="dialog">
           {error && <p className="error">{error}</p>}
@@ -192,9 +188,19 @@ function App() {
         </div>
         <Tasky/>
       </div>
-      <p>or</p>
-      <ManualTaskBtn goToManualTask={() => setState('manualTask')}/>
-    </main>
+    <div className="taskForm">
+      <input
+          name="talkToTasky"
+          type="text"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          onKeyDown={handleTaskyCommand}
+          placeholder="Tell me about your task ^-^"
+      />
+    </div>
+    <p class="seperatorTxt">or...</p>
+    <ManualTaskBtn goToManualTask={() => setState('manualTask')}/>
+  </main>
   </div>);
 
   const manualTaskPg = (
@@ -253,29 +259,6 @@ function App() {
   </main>
   </div>);
 
-const taskyCommand = (<div className="App">
-  <main className="newTask">
-      <div className="taskyZone">
-        <div className="dialog">
-          {error && <p className="error">{error}</p>}
-          {isLoading && <p>Thonking...</p>}
-          <p>{resp}</p>
-        </div>
-        <Tasky/>
-      </div>
-    <div className="taskForm">
-      <input
-          name="talkToTasky"
-          type="text"
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          onKeyDown={handleTaskyCommand}
-          placeholder="Tell me about your task..."
-      />
-    </div>
-  </main>
-  </div>);
-
   const taskPg = (<div className="App">
     <main className="task">
       {tasks.map(task => (
@@ -308,8 +291,6 @@ return (
           return notLoggedInHomePg;
         case "home":
           return homePg;
-        case "newTask":
-          return newTaskPg;
         case "manualTask":
           return manualTaskPg;
         case "task":
