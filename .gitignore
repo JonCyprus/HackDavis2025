@@ -5,6 +5,7 @@
 # dependencies
 templates/.pnp
 templates/.pnp.js
+templates/node_modules
 
 # testing
 templates/coverage
