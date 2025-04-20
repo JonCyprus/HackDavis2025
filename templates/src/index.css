@@ -1,5 +1,12 @@
 *{
   box-sizing: border-box;
+  --blueSky: #92EBFF;
+  --cloud: #FFFFFF;
+  --lGreenHill: #57BC60;
+  --dGreenHill: #3F7743;
+  --sign: #FAF7F7;
+  --wood: #885E3F;
+  --dbText: #0F0633;
 }
 
 nav ul, nav ol{
@@ -15,4 +22,8 @@ img{
 h1, h2, h3, p, ul, ol{
   margin: 0;
   padding: 0;
+}
+
+body{
+  background-color: var(--blueSky);
 }

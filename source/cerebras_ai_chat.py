@@ -31,7 +31,7 @@ while True:
     )
 
     # Add AI response to conversation history, and print for the user.
-    aiResponse = chat.choices[0].message.content
+    aiResponse = chat.choices[0]
     print(aiResponse)
     currentChat.append({"role": "assistant", "content": aiResponse})
     
