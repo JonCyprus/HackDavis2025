@@ -8,7 +8,7 @@ function App() {
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const[resp, setResp] = useState('')
+  const[resp, setResp] = useState("Heya, I'm Tasky, and I'm here to help you complete your tasks!")
 
   // Manual task creation
   const [title, setTitle] = useState("")
@@ -115,6 +115,10 @@ function App() {
     return <button className="cloudBtn" onClick={props.goToNewTask}>New Task</button>
   }
 
+  const ManualTaskBtn = (props) => {
+    return <button className="manualTaskBtn" onClick={props.goToManualTask}>Enter task manually</button>
+  }
+
   const notLoggedInHomePg = (<div className="App">
     <header className="App-header">
       <h1>
@@ -160,6 +164,13 @@ function App() {
         </div>
         <Tasky/>
       </div>
+      <p>or</p>
+      <ManualTaskBtn goToManualTask={() => setState('manualTask')}/>
+    </main>
+  </div>);
+
+  const manualTaskPg = (
+    <main className="manualTask">
       <div className="taskForm">
         <input
             type="text"
@@ -188,7 +199,7 @@ function App() {
         <button onClick={handleCreate}>Create Task</button>
       </div>
     </main>
-  </div>);
+  );
 
   const taskyTalk = (<div className="App">
   <main className="newTask">
@@ -247,6 +258,8 @@ return (
           return homePg;
         case "newTask":
           return newTaskPg;
+        case "manualTask":
+          return manualTaskPg;
         case "task":
           return taskPg;
         case "taskyTalk":
