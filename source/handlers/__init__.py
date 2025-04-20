@@ -1,5 +1,7 @@
 # Initialize the packages needed for the server
 
-from . import auth
+from .auth import LoginCallback, LoginUser
+from .prompting import cerebrasChat
+from .testCreateTask import testCreateTask, testGetTasks
 
-__all__ = ['auth']
+__all__ = ['auth', 'prompting', 'testCreateTask', 'testGetTasks']
