@@ -96,6 +96,7 @@ def logout():
 # Create a task endpoint
 @app.route("/api/task", methods=["POST"])
 def CreateTaskEndpoint():
+    print("/api/task called.")
     return handlers.CreateTask(app, request)
 
 # Send a prompt endpoint
