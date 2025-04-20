@@ -2,6 +2,6 @@
 
 from .auth import LoginCallback, LoginUser
 from .prompting import cerebrasChat
-from .testCreateTask import testCreateTask, testGetTasks
+from .CreateTask import CreateTask
 
-__all__ = ['auth', 'prompting', 'testCreateTask', 'testGetTasks']
+__all__ = ['auth', 'prompting', 'CreateTask']
