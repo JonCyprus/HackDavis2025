@@ -2,4 +2,5 @@ flask
 cerebras_cloud_sdk
 python-dotenv
 prompt_toolkit
-authlib~
+authlib
+psycopg2
