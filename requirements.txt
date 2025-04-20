@@ -4,3 +4,4 @@ python-dotenv
 prompt_toolkit
 authlib
 psycopg2
+requests
