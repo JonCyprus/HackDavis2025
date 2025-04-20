@@ -60,7 +60,7 @@ The current date and time is: \
         else:
             time = str(DT.time().replace(second=0, microsecond=0))
             date = str(DT.date())
-        currentTask = "Title: %s, Description: %s, Date: %s, Time: %s, Completion: %s\n" % (task[0], task[1], date, time, str(task[3]))
+        currentTask = "Title: %s, Description: %s, Date: %s, Time: %s, Completion: %s \n " % (task[0], task[1], date, time, str(task[3]))
         formattedPrompt += currentTask
     return formattedPrompt
 
@@ -131,27 +131,27 @@ ADD, REMOVE, EDIT. \
 Fill in any remaining fields as required, or as specified by the user. \
 Include a small response, describing what it is you did. \
 The current date and time is: " + str(datetime.today().replace(second=0, microsecond=0)) + ". \
-A list of current scheduled tasks is as follows:\n"
+A list of current scheduled tasks is as follows:\n "
     tasks = getTasks(app)
     fPrompt = ""
     for task in tasks:
-        print(task)
-        DT = task[2]
+        DT = task[5]
         if (DT == None):
             time = "None"
             date = "None"
         else:
             time = str(DT.time().replace(second=0, microsecond=0))
             date = str(DT.date())
-        fPrompt += "Title: %s, Description: %s, Date: %s, Time: %s, Completion: %s\n" % (task[0], task[1], date, time, str(task[3]))
+        fPrompt += "Title: %s, Description: %s, Date: %s, Time: %s, Completion: %s \n " % (task[column.TITLE.value], task[column.DESC.value], date, time, str(task[column.COMPLETE.value]))
 
     aiPrompt += fPrompt
 
     currChat=[{"role": "system", "content": aiPrompt}]
 
     # Add user input to conversation history.
-    userPrompt = prompt
-    currChat.append({"role": "user", "content": userPrompt})
+    print(prompt)
+    currChat.append({"role": "user", "content": str(prompt)})
+    print(currChat)
 
     # Start a stream
     chat = client.chat.completions.create(
@@ -171,6 +171,7 @@ A list of current scheduled tasks is as follows:\n"
 
     # Add AI response to conversation history
     task_data = json.loads(chat.choices[0].message.content)
+    print(task_data)
     print(json.dumps(task_data, indent=2))
 
     executeCommand(app, task_data)

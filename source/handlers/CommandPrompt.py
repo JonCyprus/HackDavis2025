@@ -10,4 +10,4 @@ def CommandPrompt(app, request):
     message = jsonReq.get("message")
     print(message)
     resp = prompting.cerebrasCommand(app, message)
-    return respondWithJSON({"reponse": resp})
+    return respondWithJSON({"response": resp})

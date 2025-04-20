@@ -8,5 +8,7 @@ def ChatPrompt(app, request):
     print(request)
     jsonReq = request.get_json()
     message = jsonReq.get("message")
+    print("Calling cerebras Chat with message")
+    print(message)
     response = prompting.cerebrasChat(app, message)
     return respondWithJSON({"response": response})

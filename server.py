@@ -102,7 +102,6 @@ def CreateTaskEndpoint():
 # Send a prompt endpoint
 @app.route("/api/prompt/chat", methods=["POST"])
 def ChatPromptEndpoint():
-   print("Endpoint recieved! Processing...")
    return handlers.ChatPrompt(app, request)
 
 # auth status

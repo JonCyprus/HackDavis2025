@@ -76,7 +76,7 @@ export const taskService = {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ input: userInput }),
+                body: JSON.stringify({ message: userInput }),
                 credentials: 'include'
             });
 
