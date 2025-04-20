@@ -24,11 +24,7 @@ function App() {
     >
       <option value="home">🏠 Home</option>
       <option value="taskyCommand">➕ New Task (AI)</option>
-<<<<<<< HEAD
-      <option value="makeTask">✍️ Manual Task</option>
-=======
       <option value="newTask">✍️ Manual Task</option>
->>>>>>> c850dfdb288d75eba5c17c9cf000b03078dad33a
       <option value="task">📋 Task List</option>
       <option value="taskyTalk">💬 Talk to Tasky</option>
     </select>
@@ -155,7 +151,7 @@ function App() {
       </h1>
     </header>
     <main className="notLoggedInHome">
-      <h3>Make an account!</h3>
+      <h3>Make an account:</h3>
       <a href="/api/auth/login" className="login-btn">Log in</a>
     </main>
     <div className="bg">
@@ -263,55 +259,6 @@ const taskyCommand = (<div className="App">
   </main>
   </div>);
 
-<<<<<<< HEAD
-=======
-const taskyCommand = (<div className="App">
-  <main className="newTask">
-      <div className="taskyZone">
-        <div className="dialog">
-          {error && <p className="error">{error}</p>}
-          {isLoading && <p>Thonking...</p>}
-          <p>{resp}</p>
-        </div>
-        <Tasky/>
-      </div>
-    <div className="taskForm">
-      <input
-          name="talkToTasky"
-          type="text"
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          onKeyDown={handleTaskyCommand}
-          placeholder="What should I do?"
-      />
-    </div>
-  </main>
-  </div>);
-
->>>>>>> c850dfdb288d75eba5c17c9cf000b03078dad33a
-  const taskPg = (<div className="App">
-    <main className="task">
-      {tasks.map(task => (
-          <div key={task.id} className="task-item">
-            <h1>{task.title}</h1>
-            <span className="day">{task.date}</span> <span className="time">{task.time}</span>
-
-            <h3>Desctiption:</h3>
-            <p>{task.description}</p>
-
-            <h2>Steps:</h2>
-            <div className="subtask">{task.steps?.map((step, index) => (
-                <div key={index} className="subtask">{step}</div>
-            ))}</div>
-          </div>
-      ))}
-    </main>
-    <div className="taskyCircle">
-        <Tasky />
-    </div>
-  </div>);
-
-
 return (
   <>
     <NavBar />
@@ -323,8 +270,8 @@ return (
           return homePg;
         case "manualTask":
           return manualTaskPg;
-        case "task":
-          return taskPg;
+        // case "task":
+        //   return taskPg;
         case "taskyTalk":
           return taskyTalk;
         case "taskyCommand":

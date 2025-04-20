@@ -6,11 +6,6 @@ header{
   text-align: center;
 }
 
-h1{
-  font-family: "Pangolin", cursive;
-  margin: 1em auto;
-}
-
 main{
   margin: 1rem;
 }
@@ -19,10 +14,44 @@ button{
   font-family: "Pangolin", cursive;
   color: var(--dpText);
   margin: auto;
+  font-size: 1.1em;
+}
+
+h1{
+  font-family: "Pangolin", cursive;
+  margin: 1em auto;
+  font-size: 2.5em;
+}
+
+h2{
+  font-size: 1.7em;
+  margin-bottom: 1em;
+}
+
+h3{
+  font-size: 1.45em;
+  margin-bottom: 1em;
+}
+
+p{
+  font-size: 1.1em;
+}
+
+a.login-btn{
+  color: var(--sign);
+  background-color: var(--accentColor);
+  font-family: "Pangolin", cursive;
+  font-size: 1.7em;
+  padding: 0.5em;
+  border-radius: 2em;
 }
 
 .notLoggedInHome{
   text-align: center;
+}
+
+main.home{
+  display: flex;
 }
 
 .cloudBtn{
@@ -43,7 +72,7 @@ button{
   right:-5vw;
   width:120vw;
   height: 52vh;
-  border-radius: 60% 75% 0 0;
+  border-radius: 50em 60em 0 0;
 }
 
 .hill2{
