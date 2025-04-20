@@ -1,26 +1,29 @@
-*{
-  box-sizing: border-box;
-}
-
-nav ul, nav ol{
-  list-style-type: none;
-}
-
-img{
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-h1, h2, h3, p, ul, ol{
-  margin: 0;
-  padding: 0;
-}
-
 body{
-  background-color: skyblue;
+  background-color: var(--blueSky);
 }
 
 .cloudBtn{
-  background-color: white;
+  background-color: var(--cloud);
+}
+
+.hill1{
+  background-color: var(--lGreenHill);
+  position: fixed;
+  z-index: 0;
+  bottom: 0;
+  right:-5vw;
+  width:120vw;
+  height: 52vh;
+  border-radius: 60% 75% 0 0;
+}
+
+.hill2{
+  background-color: var(--dGreenHill);
+  position: fixed;
+  z-index: -1;
+  bottom: -5vw;
+  right:-40vw;
+  width:120vw;
+  height: 58vh;
+  border-radius: 80% 65% 0 0;
 }
