@@ -6,12 +6,22 @@ header{
   text-align: center;
 }
 
+h1{
+  font-family: "Pangolin", cursive;
+  margin: 1em auto;
+}
+
+main{
+  margin: 1rem;
+}
+
 .cloudBtn{
   border: none;
   background-color: transparent;
   background-image: url(../public/images/cloud.svg);
-  width: 5em;
-  height: 3.5em;
+  font-size: 1.6em;
+  width: 6.25em;
+  height: 4.3em;
   font-family: "Pangolin", cursive;
 }
 
@@ -46,17 +56,32 @@ header{
   border: solid 0.5em var(--sign);
 }
 
+.taskyZone{
+  display: flex;
+  flex-direction: column;
+}
+
 .tasky{
   max-width: 8em;
 }
 
+.dialog{
+  background-color: var(--sign);
+  border-radius: 1.5em;
+  padding: 1em;
+  max-width: 20em;
+}
+
 main.task{
-  background-color: var(--wood);
-  border: solid 0.5em var(--sign);
+  background-color: var(--sign);
+  border: solid 0.5em var(--wood);
   padding: 1em;
   height: 100%;
-  width: 100%;
-  margin: 0.5em;
+}
+
+.taskyCircle{
+  position: absolute;
+  right: 0.5em;
 }
 
 @media screen and (min-width:750px){
@@ -69,6 +94,11 @@ main.task{
   .hill2{
     bottom: -4vw;
     width:110vw;
+  }
+  
+  main{
+    max-width: 70%;
+    margin: 1rem auto;
   }
 }
 
@@ -99,6 +129,10 @@ main.task{
     width: 60vw;
     height:35vh;
     border-radius: 90% 85% 0 0;
+  }
+
+  main{
+    max-width: 60%;
   }
 }
 
