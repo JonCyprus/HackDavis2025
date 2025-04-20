@@ -164,7 +164,14 @@ function App() {
           onKeyDown={handleTaskyInput}
           placeholder="Tell me about your task..."
         />
-        <textarea
+        <input
+          type = "text"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <input
+            type="text"
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
