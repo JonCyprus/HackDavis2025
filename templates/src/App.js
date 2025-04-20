@@ -256,7 +256,7 @@ function App() {
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           onKeyDown={handleTaskyChat}
-          placeholder="Tell me about your task..."
+          placeholder="What do you need to know?"
       />
     </div>
   </main>
@@ -279,7 +279,7 @@ const taskyCommand = (<div className="App">
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           onKeyDown={handleTaskyCommand}
-          placeholder="Tell me about your task..."
+          placeholder="What should I do?"
       />
     </div>
   </main>
@@ -329,8 +329,6 @@ return (
           return notLoggedInHomePg;
         case "home":
           return homePg;
-        case "newTask":
-          return newTaskPg;
         case "manualTask":
           return manualTaskPg;
         case "task":
