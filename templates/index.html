@@ -1,19 +1,105 @@
-
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Auth0 Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#92EBFF" />
+    <title>Taskland - AI-Powered Task Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;1,400;0,500;1,500;0,700;1,700&family=Pangolin&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --blueSky: #92EBFF;
+        --cloud: #FFFFFF;
+        --lGreenHill: #57BC60;
+        --dGreenHill: #3F7743;
+        --sign: #FAF7F7;
+        --wood: #885E3F;
+        --dbText: #0F0633;
+      }
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Jost', sans-serif;
+        background-color: var(--blueSky);
+        color: var(--dbText);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container {
+        background-color: var(--cloud);
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 600px;
+        width: 90%;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--dGreenHill);
+      }
+
+      .welcome-message {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .auth-button {
+        display: inline-block;
+        padding: 0.8rem 1.5rem;
+        background-color: var(--lGreenHill);
+        color: white;
+        text-decoration: none;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+      }
+
+      .auth-button:hover {
+        background-color: var(--dGreenHill);
+      }
+
+      .user-info {
+        margin-top: 2rem;
+        padding: 1rem;
+        background-color: var(--sign);
+        border-radius: 0.5rem;
+        text-align: left;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-family: monospace;
+        font-size: 0.9rem;
+      }
+    </style>
   </head>
   <body>
-{% if session %}
-    <h1>Welcome {{ session.name }}!</h1>
-    <p><a href="/logout">Logout</a></p>
-    <div><pre>{{ pretty }}</pre></div>
-{% else %}
-    <h1>Welcome Guest</h1>
-    <p><a href="/login">Login</a></p>
-{% endif %}
-
+    <div class="container">
+      {% if session %}
+        <h1>Welcome to Taskland, {{ session.name }}!</h1>
+        <p class="welcome-message">Ready to manage your tasks with AI assistance?</p>
+        <a href="/dashboard" class="auth-button">Go to Dashboard</a>
+        <a href="/logout" class="auth-button" style="margin-left: 1rem; background-color: var(--wood);">Logout</a>
+        <div class="user-info">
+          <h2>Your Profile</h2>
+          <pre>{{ pretty }}</pre>
+        </div>
+      {% else %}
+        <h1>Welcome to Taskland</h1>
+        <p class="welcome-message">Your AI-powered task management companion</p>
+        <a href="/login" class="auth-button">Login to Get Started</a>
+      {% endif %}
+    </div>
   </body>
 </html>
