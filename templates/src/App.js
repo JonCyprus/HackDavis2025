@@ -107,7 +107,8 @@ function App() {
   };
 
   function Tasky(){
-    return <img src="images/tasky-01.svg" className="tasky" alt="tasky, a fluffy yellow blob with big eyes" />;
+    const taskySprites = [(<img src="images/tasky-01.svg" className="tasky" alt="tasky, a fluffy yellow blob with big eyes" />), (<img src="images/tasky-02.svg" className="tasky" alt="tasky, a fluffy yellow blob, looks pensive" />), (<img src="images/tasky-03.svg" className="tasky" alt="tasky, a fluffy yellow blob, looks excited!" />)]
+    return taskySprites[0];
   }
 
   const CloudBtn = (props) => {

@@ -131,6 +131,9 @@ main.task{
     border-radius: 90% 85% 0 0;
   }
 
+}
+
+@media screen and (min-width: 1200px) {
   main{
     max-width: 60%;
   }
