@@ -1,3 +1,3 @@
 from . import db
-
-__all__ = ["db"]
+from getAllUserTasks import getAllUserTasks
+__all__ = ["db", "getAllUserTasks"]
