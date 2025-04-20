@@ -10,6 +10,34 @@ function App() {
   const [error, setError] = useState(null);
   const[resp, setResp] = useState('')
 
+  // Manual task creation
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
+  const [date, setDate] = useState("")
+  const [time, setTime] = useState("")
+
+  // Functions
+  // For the manual task creation
+    const handleCreate = async () => {
+  if (!title || !description || !date || !time) {
+    setError("Please fill out all fields.");
+    return;
+  }
+
+  const task = { title, description, date, time };
+
+  try {
+    const response = await taskService.createTask(task);
+    if (response.success) {
+      setState("task");
+    } else {
+      setError("Task creation failed.");
+    }
+  } catch (err) {
+    setError("Server error.");
+  }
+};
+
   // Check auth status on mount
   useEffect(() => {
     const checkAuthStatus = async () => {
@@ -118,6 +146,7 @@ function App() {
   </div>);
 
   const newTaskPg = (<div className="App">
+<<<<<<< HEAD
       <main className="newTask">
         <div className="taskyZone">
           <div className="dialog">
@@ -126,39 +155,77 @@ function App() {
             <p>{resp}</p>
           </div>
           <Tasky />
+=======
+    <main className="newTask">
+      <div className="taskyZone">
+        <div className="dialog">
+          {error && <p className="error">{error}</p>}
+          {isLoading && <p>Thonking...</p>}
+>>>>>>> b3335c608ce0bfd1fa304e3b7cc512959409561b
         </div>
+        <Tasky/>
+      </div>
+      <div className="taskForm">
         <input
+<<<<<<< HEAD
           name="talkToTasky"
           type="text"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           onKeyDown={handleTaskyInput}
           placeholder="Tell me about your task..."
+=======
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+>>>>>>> b3335c608ce0bfd1fa304e3b7cc512959409561b
         />
-      </main>
+        <textarea
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+        />
+        <input
+            type="text"
+            placeholder="MM/DD/YYYY"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+        />
+        <input
+            type="text"
+            placeholder="HH:MM (24hr)"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+        />
+        <button onClick={handleCreate}>Create Task</button>
+      </div>
+
+    </main>
   </div>);
 
   const taskPg = (<div className="App">
     <main className="task">
       {tasks.map(task => (
-        <div key={task.id} className="task-item">
-          <h1>{task.title}</h1>
-          <span className="day">{task.date}</span> <span className="time">{task.time}</span>
+          <div key={task.id} className="task-item">
+            <h1>{task.title}</h1>
+            <span className="day">{task.date}</span> <span className="time">{task.time}</span>
 
-          <h3>Desctiption:</h3>
-          <p>{task.description}</p>
+            <h3>Desctiption:</h3>
+            <p>{task.description}</p>
 
-          <h2>Steps:</h2>
+            <h2>Steps:</h2>
             <div className="subtask">{task.steps?.map((step, index) => (
-              <div key={index} className="subtask">{step}</div>
+                <div key={index} className="subtask">{step}</div>
             ))}</div>
-        </div>
+          </div>
       ))}
     </main>
     <div className="taskyCircle">
         <Tasky />
     </div>
   </div>);
+
 
 switch(state){
   case "notLoggedInHome":
