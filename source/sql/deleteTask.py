@@ -7,7 +7,7 @@ def deleteTask(email, taskTitle):
 
     try:
         cur.execute(
-            "DELETE FROM tasks WHERE taskTitle = %s AND email = %s", (taskTitle, email)
+            "DELETE FROM tasks WHERE title = %s AND email = %s", (taskTitle, email)
         )
         conn.commit()
     except psycopg2.errors.UniqueViolation:

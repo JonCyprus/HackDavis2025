@@ -128,7 +128,7 @@ def cerebrasCommand(app, prompt):
 
     aiPrompt = "You are a task scheduling assistant, translating regular text into an object with multiple parameters. \
 You must interpret a command that the user is trying to execute. The available commands are: \
-ADD, REMOVE, EDIT. \
+ADD, DELETE, EDIT. \
 Fill in any remaining fields as required, or as specified by the user. \
 Include a small response, describing what it is you did. \
 The current date and time is: " + str(datetime.today().replace(second=0, microsecond=0)) + ". \
@@ -182,11 +182,13 @@ A list of current scheduled tasks is as follows:\n "
 def executeCommand(app, params):
     command = params.get("command")
     if command == "ADD":
+        app.config["CURRENT_CONVERSATION"] = None
         date_string = params.get("date") + " " + params.get("time")
         DT_OBJ = datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
         createTask(getSessionEmail(), params.get("title"), params.get("description"), DT_OBJ,
                    None, False)
     elif command == "DELETE":
+        app.config["CURRENT_CONVERSATION"] = None
         date_string = params.get("date") + " " + params.get("time")
         DT_OBJ = datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
         deleteTask(getSessionEmail(), params.get("title"))
