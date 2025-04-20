@@ -10,8 +10,6 @@ templates/.pnp.js
 # testing
 templates/coverage
 
-# production
-templates/build
 
 # misc
 templates/.DS_Store
