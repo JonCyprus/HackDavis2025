@@ -101,3 +101,18 @@ main.task{
     border-radius: 90% 85% 0 0;
   }
 }
+
+.navBar {
+  background-color: #f1f1f1;
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #ccc;
+}
+
+.navBar select {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}

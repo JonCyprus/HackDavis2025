@@ -16,6 +16,21 @@ function App() {
   const [date, setDate] = useState("")
   const [time, setTime] = useState("")
 
+  const NavBar = () => (
+  <div className="navBar">
+    <select
+      value={state}
+      onChange={(e) => setState(e.target.value)}
+    >
+      <option value="home">🏠 Home</option>
+      <option value="newTask">➕ New Task (AI)</option>
+      <option value="makeTask">✍️ Manual Task</option>
+      <option value="task">📋 Task List</option>
+      <option value="taskyTalk">💬 Talk to Tasky</option>
+    </select>
+  </div>
+);
+
   // Functions
   // For the manual task creation
     const handleCreate = async () => {
@@ -182,8 +197,6 @@ function App() {
             onChange={(e) => setTime(e.target.value)}
         />
         <button onClick={handleCreate}>Create Task</button>
-        <button onClick={() => setState('taskyTalk')}>Talk to Tasky</button>
-
       </div>
     </main>
   </div>);
@@ -207,7 +220,6 @@ function App() {
           onKeyDown={handleTaskyInput}
           placeholder="Tell me about your task..."
       />
-      <button onClick={() => setState('newTask')}>Make Tasks!</button>
     </div>
   </main>
   </div>);
@@ -235,22 +247,30 @@ function App() {
   </div>);
 
 
-switch(state){
-  case "notLoggedInHome":
-    return notLoggedInHomePg;
-  case "login":
-    return logInPg;
-  case "home":
-    return homePg;
-  case "newTask":
-    return newTaskPg;
-  case "task":
-    return taskPg;
-  case "taskyTalk":
-    return taskyTalk;
-  default:
-    return notLoggedInHomePg;
-}
+return (
+  <>
+    <NavBar />
+    {(() => {
+      switch (state) {
+        case "notLoggedInHome":
+          return notLoggedInHomePg;
+        case "login":
+          return logInPg;
+        case "home":
+          return homePg;
+        case "newTask":
+          return newTaskPg;
+        case "task":
+          return taskPg;
+        case "taskyTalk":
+          return taskyTalk;
+        default:
+          return notLoggedInHomePg;
+      }
+    })()}
+  </>
+);
+
 
 }
 
