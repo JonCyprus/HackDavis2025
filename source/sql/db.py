@@ -1,5 +1,6 @@
 import psycopg2
 from flask import g
+from server import app
 
 def get_db():
     if "db" not in g:
