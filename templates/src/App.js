@@ -24,7 +24,11 @@ function App() {
     >
       <option value="home">🏠 Home</option>
       <option value="taskyCommand">➕ New Task (AI)</option>
+<<<<<<< HEAD
       <option value="makeTask">✍️ Manual Task</option>
+=======
+      <option value="newTask">✍️ Manual Task</option>
+>>>>>>> c850dfdb288d75eba5c17c9cf000b03078dad33a
       <option value="task">📋 Task List</option>
       <option value="taskyTalk">💬 Talk to Tasky</option>
     </select>
@@ -253,12 +257,38 @@ const taskyCommand = (<div className="App">
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           onKeyDown={handleTaskyChat}
-          placeholder="Tell me about your task..."
+          placeholder="What do you need to know?"
       />
     </div>
   </main>
   </div>);
 
+<<<<<<< HEAD
+=======
+const taskyCommand = (<div className="App">
+  <main className="newTask">
+      <div className="taskyZone">
+        <div className="dialog">
+          {error && <p className="error">{error}</p>}
+          {isLoading && <p>Thonking...</p>}
+          <p>{resp}</p>
+        </div>
+        <Tasky/>
+      </div>
+    <div className="taskForm">
+      <input
+          name="talkToTasky"
+          type="text"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          onKeyDown={handleTaskyCommand}
+          placeholder="What should I do?"
+      />
+    </div>
+  </main>
+  </div>);
+
+>>>>>>> c850dfdb288d75eba5c17c9cf000b03078dad33a
   const taskPg = (<div className="App">
     <main className="task">
       {tasks.map(task => (
