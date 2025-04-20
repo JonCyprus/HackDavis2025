@@ -7,6 +7,7 @@ import json
 # from dotenv import load_dotenv, find_dotenv
 from source.sql.getAllUserTasks import getAllUserTasks
 from source.sql.createTask import createTask
+from source.sql.deleteTask import deleteTask
 from cerebras.cloud.sdk import Cerebras # pip install --upgrade cerebras_cloud_sdk
 from enum import Enum
 from datetime import datetime
@@ -185,4 +186,8 @@ def executeCommand(app, params):
         DT_OBJ = datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
         createTask(getSessionEmail(), params.get("title"), params.get("description"), DT_OBJ,
                    None, False)
-        
+    elif command == "DELETE":
+        date_string = params.get("date") + " " + params.get("time")
+        DT_OBJ = datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
+        deleteTask(getSessionEmail(), params.get("title"))
+    return
