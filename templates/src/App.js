@@ -146,40 +146,23 @@ function App() {
   </div>);
 
   const newTaskPg = (<div className="App">
-<<<<<<< HEAD
-      <main className="newTask">
-        <div className="taskyZone">
-          <div className="dialog">
-            {error && <p className="error">{error}</p>}
-            {isLoading && <p>Thonking...</p>}
-            <p>{resp}</p>
-          </div>
-          <Tasky />
-=======
     <main className="newTask">
       <div className="taskyZone">
         <div className="dialog">
           {error && <p className="error">{error}</p>}
           {isLoading && <p>Thonking...</p>}
->>>>>>> b3335c608ce0bfd1fa304e3b7cc512959409561b
+          <p>{resp}</p>
         </div>
         <Tasky/>
       </div>
       <div className="taskForm">
         <input
-<<<<<<< HEAD
           name="talkToTasky"
           type="text"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           onKeyDown={handleTaskyInput}
           placeholder="Tell me about your task..."
-=======
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
->>>>>>> b3335c608ce0bfd1fa304e3b7cc512959409561b
         />
         <textarea
             placeholder="Description"
