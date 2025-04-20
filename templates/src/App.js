@@ -8,6 +8,7 @@ function App() {
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const[resp, setResp] = useState('')
 
   // Check auth status on mount
   useEffect(() => {
@@ -37,17 +38,19 @@ function App() {
   };
 
   // Handle task input
-  const handleTaskInput = async (e) => {
+  const handleTaskyInput = async (e) => {
     if (e.key === 'Enter' && userInput.trim()) {
       setIsLoading(true);
       try {
         // Send raw input to backend
         console.log('User input is: ', userInput)
-        const response = await taskService.getAISuggestions(userInput);
-        console.log('Server response:', response);
+        const apiResp = await taskService.getAISuggestions(userInput);
+        console.log('Server response:', apiResp);
+        setResp(apiResp.response)
+        console.log('resp extract: ', apiResp.response)
         
         // Handle response as needed
-        if (response.success) {
+        if (apiResp.success) {
           setState('task');
         }
         
@@ -120,6 +123,7 @@ function App() {
           <div className="dialog">
             {error && <p className="error">{error}</p>}
             {isLoading && <p>Thonking...</p>}
+            <p>{resp}</p>
           </div>
           <Tasky />
         </div>
@@ -128,7 +132,7 @@ function App() {
           type="text"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
-          onKeyPress={handleTaskInput}
+          onKeyDown={handleTaskyInput}
           placeholder="Tell me about your task..."
         />
       </main>
