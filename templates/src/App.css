@@ -41,6 +41,11 @@ header{
   display: none;
 }
 
+.taskSign{
+  background-color: var(--sign);
+  border: solid 0.5em var(--sign);
+}
+
 .tasky{
   max-width: 8em;
 }
