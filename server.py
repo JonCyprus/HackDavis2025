@@ -10,7 +10,7 @@ from flask import Flask, redirect, render_template, session, url_for, request, g
 import os
 from source.config import DevelopmentConfig, ProductionConfig
 
-import source.handlers.auth as auth
+import source.handlers as handlers
 import source.sql.db as db
 
 # Load the .env file
@@ -65,12 +65,12 @@ def GetUsersEndpoint():
 @app.route('/login', methods=['GET'])
 def LoginEndpoint():
     if request.method == 'GET':
-        return auth.LoginUser(app)
+        return handlers.LoginUser(app)
 
 # Callback from login
 @app.route("/callback", methods=['GET', "POST"])
 def callback():
-    return auth.LoginCallback(app)
+    return handlers.LoginCallback(app)
 
 @app.route("/logout")
 def logout():
@@ -86,6 +86,10 @@ def logout():
             quote_via=quote_plus,
         )
     )
+
+@app.route("/test/createTask")
+def testCreateTaskEndpoint():
+    return handlers.testCreateTask(app)
 
 # Listen and serve requests
 if __name__ == '__main__':
