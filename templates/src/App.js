@@ -145,7 +145,7 @@ function App() {
     </main>
   </div>);
 
-  const newTaskPg = (<div className="App">
+  const TaskyCommand = (<div className="App">
     <main className="newTask">
       <div className="taskyZone">
         <div className="dialog">
@@ -225,7 +225,7 @@ switch(state){
   case "home":
     return homePg;
   case "newTask":
-    return newTaskPg;
+    return TaskyCommand;
   case "task":
     return taskPg;
   default:

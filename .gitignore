@@ -24,3 +24,4 @@ templates/yarn-debug.log*
 templates/yarn-error.log*
 
 __pycache__
+/templates/build
