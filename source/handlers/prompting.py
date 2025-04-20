@@ -1,5 +1,5 @@
 # Quick fix DB connection
-from flask import session, g, Flask
+from flask import session, g, Flask, request
 import psycopg2
 # Act neccessary lol
 import os
@@ -8,7 +8,6 @@ from dotenv import load_dotenv, find_dotenv
 # from source.sql.getAllUserTasks import getAllUserTasks
 from cerebras.cloud.sdk import Cerebras # pip install --upgrade cerebras_cloud_sdk
 from enum import Enum
-
 from datetime import datetime
 
 class column(Enum):
@@ -38,15 +37,15 @@ def sqlFormatTasks(results):
     return formattedResults
 
 def formatPrompt(tasks):
-    dtetime = datetime.today()
-    dtetime = dtetime.replace(second=0, microsecond=0)
     formattedPrompt = "You are a helpful scheduling assistant.\
  You cannot manipulate the schedule directly, only comment on it,\
-and provide feedback relating to it. Keep your responses concise, with two sentences at most. If the user requests you to change something about the schedule, \
-inform them you are not able to do so, and ask them to try entering \"command mode\". Likewise, if the user\
- requests something off-topic, please inform them that you are unable help them. However, always be kind and courteous. \
- The current date and time is: \
-" + str(dtetime) + ". A list of currently scheduled events is as follows:\n"
+and provide feedback relating to it. Keep your responses concise, two sentences at most. \
+If the user requests you to change something about the schedule, \
+inform them you are not able to do so, and ask them to try entering \"command mode\". Likewise, if the user \
+requests something off-topic, please inform them that you are unable help them. \
+However, always be kind and courteous. Do not demand anything of the user, or ask them to do something. \
+The current date and time is: \
+" + str(datetime.today().replace(second=0, microsecond=0)) + ". A list of currently scheduled events is as follows:\n"
     
     for task in tasks:
         print(task)
