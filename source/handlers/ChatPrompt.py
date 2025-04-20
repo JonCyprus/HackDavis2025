@@ -1,5 +1,7 @@
-
-
+from source.respondWithJSON import respondWithJSON
+from . import prompting
 
 def ChatPrompt(app, request):
-    return
+    message = request.json.get('prompt')
+    prompting.cerebrasChat(app, message)
+    return 

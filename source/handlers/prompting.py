@@ -4,7 +4,7 @@ import psycopg2
 # Act neccessary lol
 import os
 import json
-from dotenv import load_dotenv, find_dotenv
+# from dotenv import load_dotenv, find_dotenv
 # from source.sql.getAllUserTasks import getAllUserTasks
 from cerebras.cloud.sdk import Cerebras # pip install --upgrade cerebras_cloud_sdk
 from enum import Enum
@@ -66,24 +66,16 @@ The current date and time is: \
 # Called in the "CHAT MODE" of TaskLand.
 # app.config["CURRENT_CHAT"] should contain an array of JSON objects, defining the conversation.
 def cerebrasChat(app, prompt):
-
-    # ifndef "CURRENT CONVERSATION", initialize it.
-    #if app.config.get("CURRENT_CHAT") == None:
-    #    aiPrompt = formatPrompt()
-    #    app.config["CURRENT_CHAT"] = [{"role": "system", "content": aiPrompt}]
-
-    # FIXME: Recieve prompt, not from input, but from an actual request.
-
+    
     currentChat = [
         {"role": "system", "content": prompt}
     ]
-    print("Connected! Waiting for input...")
-    while True:
 
+    while True:
         # Attach client to API key
-        load_dotenv(find_dotenv())
+        # load_dotenv(find_dotenv())
         client = Cerebras(
-            api_key=os.getenv("CEREBRAS_API_KEY")
+            api_key=app.config["CEREBRAS_API_KEY"]
         )
 
         # Add user input to conversation history.
@@ -96,13 +88,13 @@ def cerebrasChat(app, prompt):
             messages=currentChat
         )
 
-        # Add AI response to conversation history, and print for the user.
-        aiResponse = chat.choices[0].message.content
-        print(aiResponse)
-        currentChat.append({"role": "assistant", "content": aiResponse})
-    
+        print("Connected successfully with Cerebras, \\source\\handlers\\prompting.py")
 
-    # return aiResponse
+        # Add AI response to conversation history
+        aiResponse = chat.choices[0].message.content
+        # print(aiResponse)
+        currentChat.append({"role": "assistant", "content": aiResponse})
+    return aiResponse
 
 # Quick dirty run test
 def getAllUserTasks(email, conn):
@@ -118,6 +110,7 @@ def getAllUserTasks(email, conn):
 
     return results
 
+"""
 if __name__ == "__main__":
     app = Flask(__name__)
     print("Starting DB connection...")
@@ -125,3 +118,4 @@ if __name__ == "__main__":
     results = getAllUserTasks("joncyprus99@gmail.com", conn)
     prompt = formatPrompt(sqlFormatTasks(results))
     cerebrasChat(None, prompt)
+"""
