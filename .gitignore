@@ -6,6 +6,7 @@
 templates/.pnp
 templates/.pnp.js
 templates/node_modules
+templates/build
 
 # testing
 templates/coverage
