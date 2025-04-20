@@ -68,7 +68,7 @@ export const taskService = {
     // Send raw user input to backend
     sendTaskRequest: async (userInput) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/prompt/chat`, {
+            const response = await fetch(`${API_BASE_URL}/prompt/command`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
