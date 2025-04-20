@@ -23,11 +23,7 @@ function App() {
       onChange={(e) => setState(e.target.value)}
     >
       <option value="home">🏠 Home</option>
-<<<<<<< HEAD
-      <option value="newTask">➕ New Task (AI)</option>
-=======
       <option value="taskyCommand">➕ New Task (AI)</option>
->>>>>>> cd5e70f2f8ab04cc902674336b3a4b2ecb071b3c
       <option value="makeTask">✍️ Manual Task</option>
       <option value="task">📋 Task List</option>
       <option value="taskyTalk">💬 Talk to Tasky</option>
