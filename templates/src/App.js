@@ -2,7 +2,7 @@ import { useState } from "react";
 import './App.css';
 
 function App() {
-  const [state, setState] = useState('home');
+  const [state, setState] = useState('login');
   
   function Tasky(){
     return <img src="images/tasky-01.svg" className="tasky" alt="tasky, a fluffy yellow blob with big eyes" />;
@@ -36,8 +36,11 @@ function App() {
         Log in to Taskland
       </h1>
     </header>
-    <main className="home">
-      <p>insert login stuff here</p>
+    <main className="logIn">
+          <h2>Welcome session.name!</h2>
+          <p><a href="/logout">Logout</a></p>
+          <h2>Welcome Guest</h2>
+          <p><a href="/login">Login</a></p>
     </main>
   </div>);
 
@@ -99,7 +102,7 @@ switch(state){
   case "task":
     return taskPg;
   default:
-    return notLoggedInHomePg;
+    return logInPg;
 }
 
 }
