@@ -24,7 +24,7 @@ function App() {
     >
       <option value="home">🏠 Home</option>
       <option value="taskyCommand">➕ New Task (AI)</option>
-      <option value="newTask">✍️ Manual Task</option>
+      <option value="manualTask">✍️ Manual Task</option>
       <option value="task">📋 Task List</option>
       <option value="taskyTalk">💬 Talk to Tasky</option>
     </select>
@@ -60,7 +60,7 @@ function App() {
         const status = await authService.checkAuth();
         if (status.authenticated) {
           setState('home');
-          loadTasks();
+          await taskService.getTasks();
         }
       } catch (error) {
         console.error('Auth check failed:', error);
@@ -79,6 +79,17 @@ function App() {
       setError('Failed to load tasks');
     }
   };
+
+  useEffect(() => {
+    const maybeLoadTasks = async () => {
+      if (state === 'task') {
+        const fetchedTasks = await taskService.getTasks();
+        setTasks(fetchedTasks);
+      }
+    };
+  
+    maybeLoadTasks();
+  }, [state]);
 
   // Handle task input
   const handleTaskyChat = async (e) => {
@@ -203,40 +214,39 @@ const taskyCommand = (<div className="App">
   </main>
   </div>);
 
-  const manualTaskPg = (
-    <main className="manualTask">
-      <div className="taskForm">
-        <input
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-        />
-        <input
-            type="text"
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-        />
-        <input
-            type="text"
-            placeholder="MM/DD/YYYY"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-        />
-        <input
-            type="text"
-            placeholder="HH:MM (24hr)"
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
-        />
-        <button onClick={handleCreate}>Create Task</button>
-      </div>
-    </main>
-  );
+const manualTaskPg = (
+  <main className="manualTask">
+    <div className="taskForm">
+      <input
+          type="text"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+      />
+      <input
+          type="text"
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+      />
+      <input
+          type="text"
+          placeholder="MM/DD/YYYY"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+      />
+      <input
+          type="text"
+          placeholder="HH:MM (24hr)"
+          value={time}
+          onChange={(e) => setTime(e.target.value)}
+      />
+      <button onClick={handleCreate}>Create Task</button>
+    </div>
+  </main>
+);
 
-
-  const taskyTalk = (<div className="App">
+const taskyTalk = (<div className="App">
   <main className="newTask">
       <div className="taskyZone">
         <div className="dialog">
@@ -257,7 +267,40 @@ const taskyCommand = (<div className="App">
       />
     </div>
   </main>
-  </div>);
+</div>);
+
+const taskPg = (
+  <div className="App">
+    <main className="task">
+    {tasks.length === 0 && <p>No tasks yet.</p>}
+ 
+ {tasks.map((task, index) => (
+   <div key={task.TASKID || index} className="task-item">
+     <h2>{task.TITLE}</h2>
+
+     {task.DESC ? (
+       <p><strong>Description:</strong> {task.DESC}</p>
+     ) : null}
+
+     {task.steps?.length > 0 && (
+       <div className="subtasks">
+         <p><strong>Subtasks:</strong></p>
+         <ul>
+           {task.steps.map((step, idx) => (
+             <li key={idx}>{step}</li>
+           ))}
+         </ul>
+       </div>
+     )}
+   </div>
+ ))}
+</main>
+    <div className="taskyCircle">
+      <Tasky />
+    </div>
+  </div>
+);
+
 
 return (
   <>
@@ -270,8 +313,8 @@ return (
           return homePg;
         case "manualTask":
           return manualTaskPg;
-        // case "task":
-        //   return taskPg;
+        case "task":
+          return taskPg;
         case "taskyTalk":
           return taskyTalk;
         case "taskyCommand":

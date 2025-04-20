@@ -24,5 +24,5 @@ def getAllTasks(app):
             time = task[5].time().replace(second=0, microsecond=0)
         arr = [task[0], task[3], str(task[4]), str(date), str(time), task[8]]
         formattedTasks.append({"TASKID": arr[0], "TITLE": arr[1], "DESC": arr[2], "DATE": arr[3], "TIME": arr[4], "COMPLETE": arr[5]})
-    
+    print(formattedTasks)
     return respondWithJSON(formattedTasks)

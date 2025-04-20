@@ -9,6 +9,7 @@ def CreateTask(app, request):
     time = data.get("date") + " " + data.get("time")
     createTask(email, data.get("title"), data.get("description"), time)
 
+    print("createTaskPassed.")
     return respondWithJSON({})
 
 """
