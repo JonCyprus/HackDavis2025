@@ -1,13 +1,34 @@
 import { useState } from "react";
-// import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  const [state, setState] = useState('home')
+  const [state, setState] = useState('home');
+  
+  function Tasky(){
+    return <img src="images/tasky-01.svg" className="tasky" alt="tasky, a fluffy yellow blob with big eyes" />;
+  }
 
   const CloudBtn = (props) => {
     return <button className="cloudBtn" onClick={props.goToNewTask}>New Task</button>
   }
+
+  const notLoggedInHomePg = (<div className="App">
+    <header className="App-header">
+      <h1>
+        Welcome to Taskland!
+      </h1>
+    </header>
+    <main className="notLoggedInHome">
+      <h3>Make an account!</h3>
+      <p>Log in</p>
+
+      <div className="bg">
+          <div className="hill1"></div>
+          <div className="hill2"></div>
+          <div className="hill3"></div>
+      </div>
+    </main>
+  </div>);
   
   const logInPg = (<div className="App">
     <header className="App-header">
@@ -41,25 +62,45 @@ function App() {
       <main className="newTask">
         <div className="taskyZone">
           <div className="dialog"></div>
-          <img src="images/tasky-01.svg" alt="tasky, a fluffy yellow blob with big eyes" />
+          <Tasky />
         </div>
         <input name="talkToTasky" type="text" />
       </main>
-    </div>);
+  </div>);
 
-    console.log(state.value);
-    
-  // if([logged in]){
-  if(state === 'home'){
-    return homePg;
-  }
-  else if(state === 'newTask'){
-    return newTaskPg;
-  }
-  else{
+// note: below page is static text, will be replaced with user inputs
+  const taskPg = (<div className="App">
+    <main className="task">
+      <h1>Task Name</h1>
+      <span className="day">Day</span> <span className="time">Time</span>
+
+      <h3>Desctiption:</h3>
+      <p>Description</p>
+
+      <h2>Steps:</h2>
+        <div className="subtask">Subtask</div>
+        <div className="subtask">Another one</div>
+        <div className="subtask">I'll make subtasks a react object</div>
+    </main>
+    <div className="taskyCircle">
+        <Tasky />
+    </div>
+  </div>);
+
+switch(state){
+  case "notLoggedInHome":
+    return notLoggedInHomePg;
+  case "login":
     return logInPg;
-  }
-   //}
+  case "home":
+    return homePg;
+  case "newTask":
+    return newTaskPg;
+  case "task":
+    return taskPg;
+  default:
+    return notLoggedInHomePg;
+}
 
 }
 
