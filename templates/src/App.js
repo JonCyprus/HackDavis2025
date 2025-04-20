@@ -36,26 +36,23 @@ function App() {
     }
   };
 
-  // Handle new task input
+  // Handle task input
   const handleTaskInput = async (e) => {
     if (e.key === 'Enter' && userInput.trim()) {
       setIsLoading(true);
       try {
-        // Get AI suggestions
-        const aiResponse = await taskService.getAISuggestions(userInput);
+        // Send raw input to backend
+        const response = await taskService.sendTaskRequest(userInput);
+        console.log('Server response:', response);
         
-        // Create task with AI suggestions
-        const newTask = await taskService.createTask({
-          title: userInput,
-          aiSuggestions: aiResponse.suggestions
-        });
+        // Handle response as needed
+        if (response.success) {
+          setState('task');
+        }
         
-        // Update tasks list
-        setTasks([...tasks, newTask]);
         setUserInput('');
-        setState('task');
       } catch (error) {
-        setError('Failed to create task');
+        setError('Failed to process request');
       } finally {
         setIsLoading(false);
       }

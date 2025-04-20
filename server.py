@@ -123,6 +123,12 @@ def auth_status():
         'user': session.get('user')
     })
 
+# Add this new endpoint
+@app.route('/api/task', methods=['POST'])
+def task_endpoint():
+    # Pass the entire request object to the handler
+    return handlers.handle_task_request(request)
+
 # Listen and serve requests
 if __name__ == '__main__':
     app.run(host="127.0.0.1", port=os.getenv("PORT", 5000))

@@ -63,6 +63,29 @@ export const taskService = {
             console.error('Error getting AI suggestions:', error);
             throw error;
         }
+    },
+
+    // Send raw user input to backend
+    sendTaskRequest: async (userInput) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/task`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ input: userInput }),
+                credentials: 'include'
+            });
+            
+            if (!response.ok) {
+                throw new Error('Request failed');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('Error processing request:', error);
+            throw error;
+        }
     }
 };
 
